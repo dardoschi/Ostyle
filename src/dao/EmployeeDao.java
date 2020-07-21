@@ -11,7 +11,7 @@ import main.Employee;
 public class EmployeeDao {
 	
 	private Controller ctrl;
-	private Connection conn = ConnectionFactory.getConnection();
+	private Connection conn = DBConnection.getDBConnection();
 	
 	public EmployeeDao(Controller c) {
 		ctrl = c;

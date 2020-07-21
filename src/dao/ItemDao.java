@@ -11,12 +11,12 @@ import main.Controller;
 public class ItemDao {
 	
 	private Controller ctrl;
-	private Connection connection = ConnectionFactory.getConnection();
+	private Connection connection = DBConnection.getDBConnection();
 	
 	//constructor
 	public ItemDao (Controller Contrl) {
 		ctrl = Contrl;
-		};
+	};
 	
 		
 		//Loads the ArrayList used for the jtable in mainframe
