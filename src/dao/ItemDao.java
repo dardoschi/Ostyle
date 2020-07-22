@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import Item.Item;
 import main.Controller;
@@ -20,7 +21,7 @@ public class ItemDao {
 	
 		
 		//Loads the ArrayList used for the jtable in mainframe
-		public void getWarehousefromDB() {
+		public void getWarehousefromDB(ArrayList<Item> warehouse) {
 			try {
 				Statement st = connection.createStatement();
 				String query ="select * from item";
@@ -33,7 +34,7 @@ public class ItemDao {
 					s.setType(rs.getString("type"));
 					s.setInStock(rs.getInt("instock"));
 					s.setColour(rs.getString("colour"));
-					ctrl.Warehouse.add(s);
+					warehouse.add(s);
 				}
 			}
 			catch (SQLException e ) {
