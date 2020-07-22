@@ -13,6 +13,7 @@ import frames.EditSelectedItemFrame;
 import frames.LoginFrame;
 import frames.MainFrameEmployee;
 import frames.RegisterNewUserFrame;
+import people.Employee;
 import frames.MainFrameAdmin;
 import dao.ItemDao;
 import dao.EmployeeDao;
@@ -37,8 +38,7 @@ public class Controller {
 	public Controller(){
 		Warehouse = new ArrayList<Item>();
 		Cart = new ArrayList<Item>();
-//		conn = new ConnectionFactory(this);
-		IDao = new ItemDao(this);
+		IDao = new ItemDao();
 		EDao = new EmployeeDao(this);
 		LoginFrame = new LoginFrame(this);
 		LoadWarehouseArray(Warehouse);
@@ -125,13 +125,13 @@ public class Controller {
 	}
 		
 	//register a new user
-	public void RegisterUser(String Username, String Password,boolean Admin) {
-		if(EDao.RegisterNewUser(Username, Password,Admin)==true){
+	public void RegisterUser(String Username, String Password,boolean Admin, String Name, String Surname, int CodI) { //
+		if(EDao.RegisterNewUser(Username, Password, Admin, Name, Surname, CodI)==true){ //
 			RegisterFrame.UserHasBeenRegistered();
 			RegisterFrame.setVisible(false);
 			LoginFrame.setVisible(true);
 		}else {
-			//if (EDao.Login(Username, Password)!=null)
+			if (EDao.Login(Username, Password)!=null)
 				RegisterFrame.UserAlreadyRegistered();
 		}						
 	}
