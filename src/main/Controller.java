@@ -41,7 +41,7 @@ public class Controller {
 		IDao = new ItemDao(this);
 		EDao = new EmployeeDao(this);
 		LoginFrame = new LoginFrame(this);
-		LoadWarehouseArray();
+		LoadWarehouseArray(Warehouse);
 		MAdminFrame = new MainFrameAdmin(this);
 		MEmployeeFrame = new MainFrameEmployee(this);
 		RegisterFrame = new RegisterNewUserFrame(this);
@@ -62,13 +62,13 @@ public class Controller {
 		return Warehouse;
 	}
 	//retrieves data from database (data will be loaded into table in mainframe)
-	public void LoadWarehouseArray() {
-		IDao.getWarehousefromDB();
+	public void LoadWarehouseArray(ArrayList<Item> warehouse) {
+		IDao.getWarehousefromDB(warehouse);
 	}
 	//reloads the Warehouse arrayList (updates it with current DB values)(use it after insert/delete/update querys)
-	public ArrayList<Item> reloadWarehouseArray(){
+	public ArrayList<Item> reloadWarehouseArray(ArrayList<Item> warehouse){
 		deleteWarehouseArray();
-		LoadWarehouseArray();
+		LoadWarehouseArray(warehouse);
 		return Warehouse;
 	}
 	
@@ -138,7 +138,7 @@ public class Controller {
 	
 	//reloads the JTable in MainFrameAdmin (use after every change to the Database)
 	public void ReloadDBTable() {
-		reloadWarehouseArray();
+		reloadWarehouseArray(Warehouse);
 		MAdminFrame.TModel.fireTableDataChanged();
 		MEmployeeFrame.TModel.fireTableDataChanged();
 	} 
