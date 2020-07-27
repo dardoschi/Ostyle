@@ -6,17 +6,18 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import main.Controller;
-import main.Employee;
+import people.Employee;
 
 public class EmployeeDao {
 	
-	private Controller ctrl;
+	//private Controller ctrl;
 	private Connection conn = DBConnection.getDBConnection();
 	
-	public EmployeeDao(Controller c) {
-		ctrl = c;
-	}
+	//public EmployeeDao(Controller c) {
+	//	ctrl = c;
+	//}
 
+	
 	public Employee Login(String Username, String Password) {
 		PreparedStatement st;
 		try {
@@ -26,7 +27,7 @@ public class EmployeeDao {
 			     ResultSet rs = st.executeQuery(); 
 			     // if this account exist returns true else returns false 
 			     if ( rs.next() ) {    	
-			    	 Employee user = new Employee(rs.getString("username"), rs.getBoolean("admin"));
+			    	 Employee user = new Employee(rs.getString("name"),rs.getString("surname"),rs.getString("username"),rs.getString("password"),rs.getInt("codi"), rs.getBoolean("admin"));
 			    	 return user;
 			    	}
 			     else 
@@ -39,24 +40,26 @@ public class EmployeeDao {
 	}
 	
 	//register user
-	public boolean RegisterNewUser(String Username, String Password, boolean Admin) {
+	public boolean RegisterNewEmployee(String Username, String Password, boolean Admin, String Name, String Surname, int CodI) { //
 		PreparedStatement st;
 		try {
-				st = conn.prepareStatement("insert into employees(values(?,?,?));");
+				st = conn.prepareStatement("insert into employees(values(?,?,?,?,?,?));");
 				st.setString(1, Username);
 				st.setString(2, Password);
 				st.setBoolean(3, Admin);
+				st.setString(4, Name);
+				st.setString(5, Surname);
+				st.setInt(6, CodI);
 				ResultSet rs = st.executeQuery();
 				return true;
 		}
 		catch (SQLException e) {
 			String Error = e.getMessage();
-			if(Error.contains("duplicate key"))
+			if(Error.contains("valore chiave duplicato")) {
 				return false;
-			///else 
-				//if( Error.contains("No results"))
-					//return true;
-				else return true;
+			}else {
+					return true;
+			}
 		}
 	}
 	 
