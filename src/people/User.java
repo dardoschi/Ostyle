@@ -1,14 +1,16 @@
 package people;
 
-public class Employee{
+public class User {
 	
 	private String Name;
 	private String Surname;
 	private String Username;
 	private String Password;
-	private int CodI;
-	private boolean Admin;
-		
+	private String Email;
+	private int CodU;
+	private String Address;
+	private int CardN;
+	
 	//getters and setters
 	public String getName() {
 		return Name;
@@ -34,26 +36,40 @@ public class Employee{
 	public void setPassword(String password) {
 		Password = password;
 	}
-	public int getCodI() {
-		return CodI;
+	public void setEmail(String email) {
+		Email = email;
 	}
-	public void setCodI(int codI) {
-		CodI = codI;
+	public String getEmail() {
+		return Email;
 	}
-	public boolean isAdmin() {
-		return Admin;
+	public int getCodU() {
+		return CodU;
 	}
-	public void setAdmin(boolean admin) {
-		this.Admin = admin;
+	public void setCodU(int codU) {
+		CodU = codU;
+	}
+	public String getAddress() {
+		return Address;
+	}
+	public void setAddress(String address) {
+		Address = address;
+	}
+	public int getCardN() {
+		return CardN;
+	}
+	public void setCardN(int cardN) {
+		CardN = cardN;
 	}
 	
 	//constructor
-	public Employee(String name, String surname, String username, String password,int codi, boolean admin) {
+	public User(String name, String surname, String username, String password,String email, int codU, String address, int cardN) {
 		Name = name;
 		Surname = surname;
 		Username = username;
 		Password = password;
-		CodI = codi;
-		Admin = admin;
+		Email = email;
+		CodU = codU;
+		Address = address;
+		CardN = cardN;
 	}
 }

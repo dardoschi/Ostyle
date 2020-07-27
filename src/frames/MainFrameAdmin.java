@@ -123,7 +123,7 @@ public class MainFrameAdmin extends JFrame {
 		LogOutBtn.setBounds(949, 671, 400, 100);
 		LogOutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.LogOut();
+				ctrl.EmployeeLogOut();
 			}
 		});
 		LogOutBtn.setFont(new Font("Tahoma", Font.PLAIN, 34));
