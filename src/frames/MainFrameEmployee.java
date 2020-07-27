@@ -125,7 +125,7 @@ public class MainFrameEmployee extends JFrame {
 		LogOutBtn.setBackground(new Color(121, 204, 224));
 		LogOutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.LogOut();
+				ctrl.EmployeeLogOut();
 			}
 		});
 		LogOutBtn.setFont(new Font("Dialog", Font.PLAIN, 34));

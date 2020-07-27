@@ -19,14 +19,14 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 
-public class LoginFrame extends JFrame {
+public class EmployeeLoginFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField UsernameTextField;
 	private JPasswordField PasswordField;
 	private Controller ctrl;
 
-	public LoginFrame(Controller control) {
+	public EmployeeLoginFrame(Controller control) {
 		setResizable(false);
 		setTitle("O'Style");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("F:\\UNI\\progetto\\logo_size_invert.jpg"));
@@ -73,7 +73,7 @@ public class LoginFrame extends JFrame {
 		contentPane.add(RegisterButton);
 		RegisterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.RegisterFrameOpen();
+				ctrl.RegisterEmployeeFrameOpen();
 			}
 		});
 		RegisterButton.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -91,7 +91,7 @@ public class LoginFrame extends JFrame {
 		PasswordLabel.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		
 		JLabel backgroundLbl = new JLabel("");
-		backgroundLbl.setIcon(new ImageIcon(LoginFrame.class.getResource("/images/Login Frame.png")));
+		backgroundLbl.setIcon(new ImageIcon(EmployeeLoginFrame.class.getResource("/images/Login Frame.png")));
 		backgroundLbl.setForeground(new Color(0, 204, 255));
 		backgroundLbl.setBounds(0, 0, 1069, 675);
 		contentPane.add(backgroundLbl);
@@ -111,7 +111,7 @@ public class LoginFrame extends JFrame {
 			PasswordField.setText("");
 		}else
 			if((UsernameTextField.getText().length()>0 || PasswordField.getText().length()>0)) {
-				ctrl.Login(UsernameTextField.getText(),PasswordField.getText());
+				ctrl.EmpoloyeeLogin(UsernameTextField.getText(),PasswordField.getText());
 				UsernameTextField.setText("");
 				PasswordField.setText("");
 			}

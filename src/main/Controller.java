@@ -6,16 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import Item.Item;
-//import dao.ConnectionFactory;
 import frames.AddNewItemFrame;
 import frames.CartFrame;
 import frames.EditSelectedItemFrame;
-import frames.LoginFrame;
+import frames.EmployeeLoginFrame;
 import frames.MainFrameEmployee;
-import frames.RegisterNewUserFrame;
+import frames.RegisterNewEmployeeFrame;
 import people.Employee;
 import frames.MainFrameAdmin;
 import dao.ItemDao;
+import dao.UserDao;
 import dao.EmployeeDao;
 
 public class Controller {
@@ -23,10 +23,11 @@ public class Controller {
 //	private static ConnectionFactory conn;
 	private ItemDao IDao;
 	private EmployeeDao EDao;
-	private LoginFrame LoginFrame;
+	private UserDao UDao;
+	private EmployeeLoginFrame EmployeeLoginFrame;
 	private MainFrameAdmin MAdminFrame;
 	private MainFrameEmployee MEmployeeFrame;
-	private RegisterNewUserFrame RegisterFrame;
+	private RegisterNewEmployeeFrame RegisterEmployeeFrame;
 	private EditSelectedItemFrame EditFrame;
 	private Item selecteditem;
 	private CartFrame CFrame;
@@ -39,15 +40,16 @@ public class Controller {
 		Warehouse = new ArrayList<Item>();
 		Cart = new ArrayList<Item>();
 		IDao = new ItemDao();
-		EDao = new EmployeeDao(this);
-		LoginFrame = new LoginFrame(this);
+		EDao = new EmployeeDao();
+		UDao = new UserDao();
+		EmployeeLoginFrame = new EmployeeLoginFrame(this);
 		LoadWarehouseArray(Warehouse);
 		MAdminFrame = new MainFrameAdmin(this);
 		MEmployeeFrame = new MainFrameEmployee(this);
-		RegisterFrame = new RegisterNewUserFrame(this);
+		RegisterEmployeeFrame = new RegisterNewEmployeeFrame(this);
 		AddFrame = new AddNewItemFrame(this);
 		CFrame = new CartFrame(this);
-		LoginFrame.setVisible(true);
+		EmployeeLoginFrame.setVisible(true);
 	}
 	
 	//FUNCTIONS FOR ARRAYLIST
@@ -73,15 +75,15 @@ public class Controller {
 	}
 	
 	//open registernewuser frame from login frame
-	public void RegisterFrameOpen() {
-		RegisterFrame.setVisible(true);	
-		LoginFrame.setVisible(false);
+	public void RegisterEmployeeFrameOpen() {
+		RegisterEmployeeFrame.setVisible(true);	
+		EmployeeLoginFrame.setVisible(false);
 	}
 	
 	//open login frame from register frame
 	public void LoginFrameOpen() {
-		RegisterFrame.setVisible(false);	
-		LoginFrame.setVisible(true);
+		RegisterEmployeeFrame.setVisible(false);	
+		EmployeeLoginFrame.setVisible(true);
 	}
 	
     // open AddNewItemFrame
@@ -104,35 +106,35 @@ public class Controller {
 			CFrame.setVisible(true);
 	}
 	
-	public void Login(String Username, String Password) {
+	public void EmpoloyeeLogin(String Username, String Password) {
 		Employee user = EDao.Login(Username, Password);
 		if(user == null) {
-			LoginFrame.UnregisteredUser();
+			EmployeeLoginFrame.UnregisteredUser();
 		}else {
 			if(user.isAdmin()==true) {
 				MAdminFrame.setVisible(true);
-				LoginFrame.setVisible(false);
+				EmployeeLoginFrame.setVisible(false);
 				}else 
 					MEmployeeFrame.setVisible(true);
-					LoginFrame.setVisible(false);
+					EmployeeLoginFrame.setVisible(false);
 			}
 	}
 		
-	public void LogOut() {
+	public void EmployeeLogOut() {
 		MAdminFrame.setVisible(false);
 		MEmployeeFrame.setVisible(false);
-		LoginFrame.setVisible(true);
+		EmployeeLoginFrame.setVisible(true);
 	}
 		
 	//register a new user
-	public void RegisterUser(String Username, String Password,boolean Admin, String Name, String Surname, int CodI) { //
-		if(EDao.RegisterNewUser(Username, Password, Admin, Name, Surname, CodI)==true){ //
-			RegisterFrame.UserHasBeenRegistered();
-			RegisterFrame.setVisible(false);
-			LoginFrame.setVisible(true);
+	public void RegisterEmployee(String Username, String Password,boolean Admin, String Name, String Surname, int CodI) { //
+		if(EDao.RegisterNewEmployee(Username, Password, Admin, Name, Surname, CodI)==true){ //
+			RegisterEmployeeFrame.UserHasBeenRegistered();
+			RegisterEmployeeFrame.setVisible(false);
+			EmployeeLoginFrame.setVisible(true);
 		}else {
-			if (EDao.Login(Username, Password)!=null)
-				RegisterFrame.UserAlreadyRegistered();
+			//if (EDao.Login(Username, Password)!=null)
+				RegisterEmployeeFrame.UserAlreadyRegistered();
 		}						
 	}
 	
