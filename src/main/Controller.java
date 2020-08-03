@@ -12,7 +12,10 @@ import frames.EditSelectedItemFrame;
 import frames.EmployeeLoginFrame;
 import frames.MainFrameEmployee;
 import frames.RegisterNewEmployeeFrame;
+import frames.RegisterNewUserFrame;
+import frames.UserLoginFrame;
 import people.Employee;
+import people.User;
 import frames.MainFrameAdmin;
 import dao.ItemDao;
 import dao.UserDao;
@@ -25,9 +28,11 @@ public class Controller {
 	private EmployeeDao EDao;
 	private UserDao UDao;
 	private EmployeeLoginFrame EmployeeLoginFrame;
+	private UserLoginFrame UserLogFrame;
 	private MainFrameAdmin MAdminFrame;
 	private MainFrameEmployee MEmployeeFrame;
 	private RegisterNewEmployeeFrame RegisterEmployeeFrame;
+	private RegisterNewUserFrame RegisterUserFrame;
 	private EditSelectedItemFrame EditFrame;
 	private Item selecteditem;
 	private CartFrame CFrame;
@@ -43,13 +48,16 @@ public class Controller {
 		EDao = new EmployeeDao();
 		UDao = new UserDao();
 		EmployeeLoginFrame = new EmployeeLoginFrame(this);
+		UserLogFrame = new UserLoginFrame(this);
 		LoadWarehouseArray(Warehouse);
 		MAdminFrame = new MainFrameAdmin(this);
 		MEmployeeFrame = new MainFrameEmployee(this);
 		RegisterEmployeeFrame = new RegisterNewEmployeeFrame(this);
+		RegisterUserFrame = new RegisterNewUserFrame(this);
 		AddFrame = new AddNewItemFrame(this);
 		CFrame = new CartFrame(this);
-		EmployeeLoginFrame.setVisible(true);
+		//EmployeeLoginFrame.setVisible(true);
+		UserLogFrame.setVisible(true);
 	}
 	
 	//FUNCTIONS FOR ARRAYLIST
@@ -81,9 +89,19 @@ public class Controller {
 	}
 	
 	//open login frame from register frame
-	public void LoginFrameOpen() {
+	public void EmployeeLoginFrameOpen() {
 		RegisterEmployeeFrame.setVisible(false);	
 		EmployeeLoginFrame.setVisible(true);
+	}
+	
+	public void UserLoginFrameOpen() {
+		RegisterUserFrame.setVisible(false);
+		UserLogFrame.setVisible(true);
+	}
+	
+	public void RegisterUserFrameOpen() {
+		RegisterUserFrame.setVisible(true);	
+		UserLogFrame.setVisible(false);
 	}
 	
     // open AddNewItemFrame
@@ -119,7 +137,19 @@ public class Controller {
 					EmployeeLoginFrame.setVisible(false);
 			}
 	}
-		
+	
+	
+	public void UserLogin(String Username, String Password) {
+		User user = UDao.UserLogin(Username, Password);
+		if(user == null) {
+			UserLogFrame.UnregisteredUser();
+		}else {
+			System.out.println("Logged as "+user.getUsername());
+			//apri menu utente
+		}
+	}
+	
+	
 	public void EmployeeLogOut() {
 		MAdminFrame.setVisible(false);
 		MEmployeeFrame.setVisible(false);
@@ -136,6 +166,14 @@ public class Controller {
 			//if (EDao.Login(Username, Password)!=null)
 				RegisterEmployeeFrame.UserAlreadyRegistered();
 		}						
+	}
+	
+	public void RegisterUser(String Name, String Surname,String Username, String Password, String Email, String Address, int CardN) {
+		if( (UDao.RegisterNewUser(Name, Surname, Username, Password, Email, Address, CardN) == true) ){
+			RegisterUserFrame.UserHasBeenRegistered();
+			RegisterUserFrame.setVisible(false);
+			UserLogFrame.setVisible(true);
+		}
 	}
 	
 	//reloads the JTable in MainFrameAdmin (use after every change to the Database)
