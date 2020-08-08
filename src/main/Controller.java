@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import Item.Item;
 import frames.AddNewItemFrame;
 import frames.CartFrame;
 import frames.EditSelectedItemFrame;
 import frames.EmployeeLoginFrame;
-import frames.MainFrameEmployee;
+import frames.MainFrame;
 import frames.RegisterNewEmployeeFrame;
 import frames.RegisterNewUserFrame;
 import frames.UserLoginFrame;
+import orders.Item;
 import people.Employee;
 import people.User;
 import frames.MainFrameAdmin;
@@ -30,7 +30,7 @@ public class Controller {
 	private EmployeeLoginFrame EmployeeLoginFrame;
 	private UserLoginFrame UserLogFrame;
 	private MainFrameAdmin MAdminFrame;
-	private MainFrameEmployee MEmployeeFrame;
+	private MainFrame MFrame;
 	private RegisterNewEmployeeFrame RegisterEmployeeFrame;
 	private RegisterNewUserFrame RegisterUserFrame;
 	private EditSelectedItemFrame EditFrame;
@@ -39,6 +39,8 @@ public class Controller {
 	private AddNewItemFrame AddFrame;
 	public ArrayList<Item> Warehouse;
 	public ArrayList<Item> Cart;
+	private Employee Cashier;
+	private User Client;
 	
 	//Constructor
 	public Controller(){
@@ -51,7 +53,7 @@ public class Controller {
 		UserLogFrame = new UserLoginFrame(this);
 		LoadWarehouseArray(Warehouse);
 		MAdminFrame = new MainFrameAdmin(this);
-		MEmployeeFrame = new MainFrameEmployee(this);
+		//MFrame = new MainFrame(this);
 		RegisterEmployeeFrame = new RegisterNewEmployeeFrame(this);
 		RegisterUserFrame = new RegisterNewUserFrame(this);
 		AddFrame = new AddNewItemFrame(this);
@@ -60,6 +62,22 @@ public class Controller {
 		UserLogFrame.setVisible(true);
 	}
 	
+	public User getClient() {
+		return Client;
+	}
+
+	public void setClient(User client) {
+		Client = client;
+	}
+
+	public Employee getCashier() {
+		return Cashier;
+	}
+
+	public void setCashier(Employee cashier) {
+		Cashier = cashier;
+	}
+
 	//FUNCTIONS FOR ARRAYLIST
 	public void add(Item i) {
 		Warehouse.add(i);
@@ -90,7 +108,8 @@ public class Controller {
 	
 	//open login frame from register frame
 	public void EmployeeLoginFrameOpen() {
-		RegisterEmployeeFrame.setVisible(false);	
+		RegisterEmployeeFrame.setVisible(false);
+		UserLogFrame.setVisible(false);
 		EmployeeLoginFrame.setVisible(true);
 	}
 	
@@ -132,10 +151,14 @@ public class Controller {
 			if(user.isAdmin()==true) {
 				MAdminFrame.setVisible(true);
 				EmployeeLoginFrame.setVisible(false);
+				setCashier(user);
 				}else 
-					MEmployeeFrame.setVisible(true);
 					EmployeeLoginFrame.setVisible(false);
+					setCashier(user);
+					MFrame = new MainFrame(this);
+					MFrame.setVisible(true);
 			}
+		System.out.println("Logged as "+user.getUsername());
 	}
 	
 	
@@ -144,16 +167,31 @@ public class Controller {
 		if(user == null) {
 			UserLogFrame.UnregisteredUser();
 		}else {
+			UserLogFrame.setVisible(false);
 			System.out.println("Logged as "+user.getUsername());
-			//apri menu utente
+			setClient(user);
+			MFrame = new MainFrame(this);
+			MFrame.setVisible(true);			//apri menu utente
 		}
 	}
 	
 	
 	public void EmployeeLogOut() {
 		MAdminFrame.setVisible(false);
-		MEmployeeFrame.setVisible(false);
+		MFrame.setVisible(false);
 		EmployeeLoginFrame.setVisible(true);
+		System.out.println(Cashier.getUsername());
+		setCashier(null);
+		MFrame.dispose();
+		
+	}
+	
+	public void UserLogOut() {
+		MFrame.setVisible(false);
+		UserLogFrame.setVisible(true);
+		System.out.println(Client.getUsername());
+		setClient(null);
+		MFrame.dispose();
 	}
 		
 	//register a new user
@@ -180,18 +218,17 @@ public class Controller {
 	public void ReloadDBTable() {
 		reloadWarehouseArray(Warehouse);
 		MAdminFrame.TModel.fireTableDataChanged();
-		MEmployeeFrame.TModel.fireTableDataChanged();
+		MFrame.TModel.fireTableDataChanged();
 	} 
-	
 	//add new item
-	public void AddNewItem(int Id, String Size, double Price, String Type, int InStock, String Colour) {
-		IDao.AddNewItemToDB(Id, Size, Price, Type, InStock, Colour);
+	public void AddNewItem(int Id, String Size, double Price, String Type, int InStock, String Colour, String Name) {
+		IDao.AddNewItemToDB(Id, Size, Price, Type, InStock, Colour, Name);
 		ReloadDBTable();
 		}
 	
 	//updates the SelectedItemFromDB  (from the editselectedframe)
-	public void updateItemInDB(int Id, String Size, double Price, String Type, int InStock, String Colour, int OldId) {
-		IDao.updateItem(Id, Size, Price, Type, InStock, Colour, OldId);
+	public void updateItemInDB(int Id, String Size, double Price, String Type, int InStock, String Colour, String Name, int OldId) {
+		IDao.updateItem(Id, Size, Price, Type, InStock, Colour, Name, OldId);
 		ReloadDBTable();
 	}
 
@@ -230,7 +267,7 @@ public class Controller {
 					Cart.get(index).inStockMinusOne();
 					}
 			CFrame.TModel.fireTableDataChanged();
-			MEmployeeFrame.TModel.fireTableDataChanged();
+			MFrame.TModel.fireTableDataChanged();
 			getTotal();
 			CFrame.updateTotal();
 		}
@@ -244,7 +281,7 @@ public class Controller {
 			IDao.updateOnSaleInDB(sold, id);
 		}
 		Cart.clear();
-		MEmployeeFrame.TModel.fireTableDataChanged();
+		MFrame.TModel.fireTableDataChanged();
 		CFrame.TModel.fireTableDataChanged();
 		CFrame.updateTotal();
 	}
@@ -259,7 +296,7 @@ public class Controller {
 			Cart.remove(index);
 		}
 		CFrame.TModel.fireTableDataChanged();
-		MEmployeeFrame.TModel.fireTableDataChanged();
+		MFrame.TModel.fireTableDataChanged();
 		CFrame.updateTotal();
 	}
 	
@@ -278,7 +315,7 @@ public class Controller {
 		Cart.get(index).zeroInCart();
 		Cart.remove(index);
 		CFrame.TModel.fireTableDataChanged();
-		MEmployeeFrame.TModel.fireTableDataChanged();
+		MFrame.TModel.fireTableDataChanged();
 		CFrame.updateTotal();
 	}
 	
