@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 import orders.Order;
 
 public class OrderListTableModel extends AbstractTableModel{
-	private String[] columnNames = { "CodO","TotalePrice","Date"}; 
+	private String[] columnNames = { "Order Code","Total Price","Date"}; 
     private Class<?>[] types = new Class[]{Integer.class, Double.class, Date.class};
     
     //needed as dummy for the constructor(Warehouse arrayList of the controller copied here)
