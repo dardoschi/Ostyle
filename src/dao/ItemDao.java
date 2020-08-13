@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Item.Item;
 import main.Controller;
+import orders.Item;
 
 public class ItemDao {
 	
@@ -34,6 +34,7 @@ public class ItemDao {
 					s.setType(rs.getString("type"));
 					s.setInStock(rs.getInt("instock"));
 					s.setColour(rs.getString("colour"));
+					s.setName(rs.getString("name"));
 					warehouse.add(s);
 				}
 			}
@@ -44,16 +45,17 @@ public class ItemDao {
 		}
 
 	//Add new item to Database, after this reload the arrayList
-	public void AddNewItemToDB(int Id, String Size, double Price, String Type, int InStock, String Colour) {
+	public void AddNewItemToDB(int Id, String Size, double Price, String Type, int InStock, String Colour, String Name) {
 		PreparedStatement st;
 		try {
-				st = connection.prepareStatement("insert into item (values (?,?,?,?,?,?));");
+				st = connection.prepareStatement("insert into item (values (?,?,?,?,?,?,?));");
 				st.setInt(1, Id);
 				st.setString(2, Size);
 				st.setDouble(3, Price);
 				st.setString(4, Type);
 				st.setInt(5, InStock);
-				st.setString(6, Colour);	
+				st.setString(6, Colour);
+				st.setString(7, Name);
 				ResultSet rs = st.executeQuery();
 		}catch(SQLException e3) {
 			e3.printStackTrace();
@@ -98,6 +100,7 @@ public class ItemDao {
 				selected.setType(rs.getString("type"));
 				selected.setInStock(rs.getInt("instock"));
 				selected.setColour(rs.getString("colour"));
+				selected.setName(rs.getString("name"));
 			}
 			return selected;
 		}	
@@ -107,17 +110,18 @@ public class ItemDao {
 		}
 	}
 	
-	public void updateItem(int Id, String Size, double Price, String Type, int InStock, String Colour, int OldId) {
+	public void updateItem(int Id, String Size, double Price, String Type, int InStock, String Colour, String Name, int OldId) {
 		PreparedStatement st;
 		try {
-			st = connection.prepareStatement("UPDATE item SET id = ?, size = ?, price = ?, type = ?, instock = ?, colour = ? WHERE id = ?");
+			st = connection.prepareStatement("UPDATE item SET id = ?, size = ?, price = ?, type = ?, instock = ?, colour = ?, name = ? WHERE id = ?");
 			st.setInt(1, Id);
 			st.setString(2, Size);
 			st.setDouble(3, Price);
 			st.setString(4, Type);
 			st.setInt(5, InStock);
 			st.setString(6, Colour);
-			st.setInt(7,OldId);
+			st.setString(7, Name);
+			st.setInt(8,OldId);
 			ResultSet rs = st.executeQuery();
 		}
 		catch (SQLException e) {

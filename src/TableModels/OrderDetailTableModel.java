@@ -4,19 +4,18 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import main.Controller;
 import orders.Item;
 
-public class ItemInCartTableModel extends AbstractTableModel{
+public class OrderDetailTableModel extends AbstractTableModel{
 	
-    private String[] columnNames = { "Id","Name","Size","Price","Type","Colour","In Cart"}; 
-    private Class<?>[] types = new Class[]{Integer.class, String.class, String.class, Double.class, String.class, String.class, Integer.class};
+    private String[] columnNames = { "Name","Size","Price","Type","Colour","Amount"}; 
+    private Class<?>[] types = new Class[]{ String.class, String.class, Double.class, String.class, String.class, Integer.class};
     
     //needed as dummy for the constructor(Warehouse arrayList of the controller copied here)
-	public ArrayList<Item> Cart ;
+	public ArrayList<Item> Order ;
 	
-    public ItemInCartTableModel (ArrayList<Item> Cart){
-        this.Cart = Cart;
+    public OrderDetailTableModel (ArrayList<Item> Order){
+        this.Order = Order;
         fireTableDataChanged();
     }
     
@@ -37,7 +36,7 @@ public class ItemInCartTableModel extends AbstractTableModel{
     	
     @Override
     public int getRowCount(){
-    	return Cart.size();
+    	return Order.size();
     }
     
     @Override
@@ -47,16 +46,15 @@ public class ItemInCartTableModel extends AbstractTableModel{
     
     @Override  //Returns the value for the cell at columnIndex and rowIndex.
     public Object getValueAt(int row, int column){
-        if(row < 0 || row >= Cart.size()) return null;
-        Item obj = Cart.get(row);
+        if(row < 0 || row >= Order.size()) return null;
+        Item obj = Order.get(row);
         switch(column){
-	        case 0: return obj.getId();
-	        case 1: return obj.getName();
-	        case 2: return obj.getSize();
-	        case 3: return obj.getPrice();
-	        case 4: return obj.getType();
-	        case 5: return obj.getColour();
-	        case 6: return obj.getInCart();
+	        case 0: return obj.getName();
+	        case 1: return obj.getSize();
+	        case 2: return obj.getPrice();
+	        case 3: return obj.getType();
+	        case 4: return obj.getColour();
+	        case 5: return obj.getInCart();
             default: return null;
         }
     }  

@@ -13,20 +13,26 @@ import frames.MainFrame;
 import frames.RegisterNewEmployeeFrame;
 import frames.RegisterNewUserFrame;
 import frames.UserLoginFrame;
+import frames.UserOrdersFrame;
 import orders.Item;
+import orders.Order;
+import orders.OrderDetail;
 import people.Employee;
 import people.User;
 import frames.MainFrameAdmin;
 import dao.ItemDao;
+import dao.OrderDetailDao;
+import dao.OrdersDao;
 import dao.UserDao;
 import dao.EmployeeDao;
 
 public class Controller {
 	
-//	private static ConnectionFactory conn;
 	private ItemDao IDao;
 	private EmployeeDao EDao;
 	private UserDao UDao;
+	private OrdersDao ODao;
+	private OrderDetailDao ODDao;
 	private EmployeeLoginFrame EmployeeLoginFrame;
 	private UserLoginFrame UserLogFrame;
 	private MainFrameAdmin MAdminFrame;
@@ -39,6 +45,10 @@ public class Controller {
 	private AddNewItemFrame AddFrame;
 	public ArrayList<Item> Warehouse;
 	public ArrayList<Item> Cart;
+	public ArrayList<Order> OrderList;
+	public ArrayList<OrderDetail> OrderDetailList;
+	public ArrayList<Item> OrderItems;
+	private UserOrdersFrame OrdersFrame;
 	private Employee Cashier;
 	private User Client;
 	
@@ -46,9 +56,12 @@ public class Controller {
 	public Controller(){
 		Warehouse = new ArrayList<Item>();
 		Cart = new ArrayList<Item>();
+		OrderItems = new ArrayList<Item>();
 		IDao = new ItemDao();
 		EDao = new EmployeeDao();
 		UDao = new UserDao();
+		ODao = new OrdersDao();
+		ODDao = new OrderDetailDao();
 		EmployeeLoginFrame = new EmployeeLoginFrame(this);
 		UserLogFrame = new UserLoginFrame(this);
 		LoadWarehouseArray(Warehouse);
@@ -152,11 +165,13 @@ public class Controller {
 				MAdminFrame.setVisible(true);
 				EmployeeLoginFrame.setVisible(false);
 				setCashier(user);
-				}else 
+				}else if(user.isAdmin()==false) {
 					EmployeeLoginFrame.setVisible(false);
 					setCashier(user);
 					MFrame = new MainFrame(this);
 					MFrame.setVisible(true);
+				}
+
 			}
 		System.out.println("Logged as "+user.getUsername());
 	}
@@ -170,6 +185,8 @@ public class Controller {
 			UserLogFrame.setVisible(false);
 			System.out.println("Logged as "+user.getUsername());
 			setClient(user);
+			GetUserOrderList(user.getCodU());
+			UpdateUserOrderList(OrderList);
 			MFrame = new MainFrame(this);
 			MFrame.setVisible(true);			//apri menu utente
 		}
@@ -177,23 +194,40 @@ public class Controller {
 	
 	
 	public void EmployeeLogOut() {
-		MAdminFrame.setVisible(false);
-		MFrame.setVisible(false);
-		EmployeeLoginFrame.setVisible(true);
+		if(Cashier.isAdmin()==true) {
+			MAdminFrame.setVisible(false);
+		}else if(Cashier.isAdmin()==false) {
+			MFrame.setVisible(false);
+		}
+		//EmployeeLoginFrame.setVisible(true);
+		UserLogFrame.setVisible(true);
 		System.out.println(Cashier.getUsername());
 		setCashier(null);
 		MFrame.dispose();
 		
 	}
 	
-	public void UserLogOut() {
+	/*public void UserLogOut() {
 		MFrame.setVisible(false);
 		UserLogFrame.setVisible(true);
 		System.out.println(Client.getUsername());
 		setClient(null);
 		MFrame.dispose();
-	}
+	}*/
 		
+	public void MFrameLogOut() {
+		if(Cashier==null) {
+			//user logout
+			MFrame.setVisible(false);
+			UserLogFrame.setVisible(true);
+			System.out.println(Client.getUsername());
+			setClient(null);
+			UpdateUserOrderList(OrderList);
+			MFrame.dispose();
+		}else {
+			EmployeeLogOut();
+		}
+	}
 	//register a new user
 	public void RegisterEmployee(String Username, String Password,boolean Admin, String Name, String Surname, int CodI) { //
 		if(EDao.RegisterNewEmployee(Username, Password, Admin, Name, Surname, CodI)==true){ //
@@ -218,7 +252,7 @@ public class Controller {
 	public void ReloadDBTable() {
 		reloadWarehouseArray(Warehouse);
 		MAdminFrame.TModel.fireTableDataChanged();
-		MFrame.TModel.fireTableDataChanged();
+		//MFrame.TModel.fireTableDataChanged();
 	} 
 	//add new item
 	public void AddNewItem(int Id, String Size, double Price, String Type, int InStock, String Colour, String Name) {
@@ -280,10 +314,20 @@ public class Controller {
 			int sold = i.getInCart();
 			IDao.updateOnSaleInDB(sold, id);
 		}
+		CreateOrder();
 		Cart.clear();
 		MFrame.TModel.fireTableDataChanged();
 		CFrame.TModel.fireTableDataChanged();
 		CFrame.updateTotal();
+	}
+	
+	public void CreateOrder(){
+		//per ora solo clienti
+		int NewCodO = ODao.CreateOrder(Client.getCodU(), getTotal());
+		System.out.println(NewCodO);
+		for(Item i : Cart) {
+			ODDao.CreateOrderDetail(NewCodO, i);
+		}
 	}
 	
 	
@@ -335,5 +379,54 @@ public class Controller {
 		IDao.removeFromWarehouse(id);
 		ReloadDBTable();
 	}
+	
+	public void GetUserOrderList(int CodU) {
+		OrderList = new ArrayList<Order>();
+		OrderDetailList = new ArrayList<OrderDetail>();
+		ODao.GetUserOrders(1, OrderList);
+	}
+	
+	public void OrdersFrameOpen() {
+		if(OrdersFrame != null) {
+			OrdersFrame.setVisible(true);
+		}else
+			OrdersFrame = new UserOrdersFrame(this);
+			OrdersFrame.setVisible(true);
+	}
+	
+	public void UpdateUserOrderList(ArrayList<Order> OrdList) {
+		if(Client == null) {
+			OrderList.clear();
+			OrderDetailList.clear();
+		}else {
+			OrderList.clear();
+			OrderDetailList.clear();
+			GetUserOrderList(Client.getCodU());
+		}
+	}
+	
+	public void getOrderDetail(int CodO) {
+		ODDao.getOrderDetail(CodO, OrderDetailList);
+		getItemsFromOD(OrderDetailList);
+	}
+	
+	public void getItemsFromOD(ArrayList<OrderDetail> OD){
+		for (OrderDetail od : OD) {
+			Item i = IDao.getSelectedItemFromDB(od.getCodA());
+			i.setInCart(od.getAmount());
+			OrderItems.add(i);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }	

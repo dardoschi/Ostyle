@@ -9,7 +9,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import TableModels.ItemInDBTableModel;
 
 import java.awt.Color;
@@ -23,6 +28,12 @@ import javax.swing.SwingConstants;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import java.awt.Dimension;
+import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.regex.PatternSyntaxException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFrameAdmin extends JFrame {
 	
@@ -30,6 +41,7 @@ public class MainFrameAdmin extends JFrame {
 	private JScrollPane ItemscrollPane;
 	private JTable ItemTable;
 	public ItemInDBTableModel TModel;
+	private JTextField SearchTF;
 
 
 	public MainFrameAdmin(Controller c){
@@ -158,6 +170,33 @@ public class MainFrameAdmin extends JFrame {
 		MainPanel.add(LogOutBtn);
 		MainPanel.add(AddItemBtn);
 		MainPanel.add(RemoveBtn);
+		
+		SearchTF = new JTextField();
+		SearchTF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SearchTF.setText("");
+			}
+		});
+		SearchTF.setHorizontalAlignment(SwingConstants.CENTER);
+		SearchTF.setText("Search here");
+		SearchTF.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(TModel);
+			    ItemTable.setRowSorter(sorter);
+			    String text = SearchTF.getText();
+	            if(text.length() == 0) {
+	               sorter.setRowFilter(null);
+	            } else {
+	                  sorter.setRowFilter(RowFilter.regexFilter(text));
+	             }
+			}
+		});
+		SearchTF.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		SearchTF.setBounds(949, 572, 400, 62);
+		MainPanel.add(SearchTF);
+		SearchTF.setColumns(10);
 		
 		JLabel backgroundLbl = new JLabel("");
 		backgroundLbl.setIcon(new ImageIcon(MainFrameAdmin.class.getResource("/images/Main Admin Frame.png")));

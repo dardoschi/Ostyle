@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 //import javax.swing.table.DefaultTableModel;
 
-import Item.Item;
 import main.Controller;
+import orders.Item;
 //**//to reload table, reload controller arraylist and call firetabledatachanged on the ItemInDBTableModel variable//**//
 	public class ItemInDBTableModel extends AbstractTableModel {
 	
-		    private String[] columnNames = {"Id","Size","Price","Type","Colour","InStock"};
-		    private Class<?>[] types = {Integer.class, String.class, Double.class, String.class, String.class, Integer.class};
+		    private String[] columnNames = {"Id","Name","Size","Price","Type","Colour","InStock"};
+		    private Class<?>[] types = {Integer.class,String.class, String.class, Double.class, String.class, String.class, Integer.class};
 
 		    //needed as dummy for the constructor(Warehouse arrayList of the controller copied here)
 			public ArrayList<Item> Warehouse ;
@@ -51,11 +51,12 @@ import main.Controller;
 		        Item obj = Warehouse.get(row);
 		        switch(column){
 		            case 0: return obj.getId();
-		            case 1: return obj.getSize();
-		            case 2: return obj.getPrice();
-		            case 3: return obj.getType();
-		            case 4: return obj.getColour();
-		            case 5: return obj.getInStock();
+		            case 1: return obj.getName();
+		            case 2: return obj.getSize();
+		            case 3: return obj.getPrice();
+		            case 4: return obj.getType();
+		            case 5: return obj.getColour();
+		            case 6: return obj.getInStock();
 		            default: return null;
 		        }
 		    }  

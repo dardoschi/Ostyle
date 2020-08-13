@@ -12,20 +12,30 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
-import Item.Item;
 import TableModels.ItemInDBTableModel;
 import main.Controller;
+import orders.Item;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.table.DefaultTableModel;
 
-public class MainFrameEmployee extends JFrame {
+public class MainFrame extends JFrame {
 
 	private Controller ctrl;
 	private JTable ItemTable;
@@ -34,11 +44,12 @@ public class MainFrameEmployee extends JFrame {
 	private Item SelectedItem;
 	private Item CartItem;        
 	public ItemInDBTableModel TModel;
+	private JTextField SearchTF;
 	
-	public MainFrameEmployee(Controller c) {
+	public MainFrame(Controller c) {
 		setTitle("O'Style");
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrameEmployee.class.getResource("/images/logo_size_invert.jpg")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/images/logo_size_invert.jpg")));
 		ctrl = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1385, 825);
@@ -50,12 +61,12 @@ public class MainFrameEmployee extends JFrame {
 		//creates an istance of the custom table model with the controller arraylist(warehouse)
 		TModel = new ItemInDBTableModel(c.Warehouse);
 		ItemTable = new JTable(TModel);
+		ItemTable.setShowGrid(false);
 		ItemTable.setFillsViewportHeight(true);
 		ItemTable.setSelectionForeground(new Color(255, 255, 255));
 		ItemTable.setSelectionBackground(new Color(72, 61, 139));
 		ItemTable.setFont(new Font("SansSerif", Font.PLAIN, 22));
 		ItemTable.setForeground(new Color(255, 255, 255));
-		ItemTable.setShowGrid(false);
 		ItemTable.setShowHorizontalLines(true);
 		ItemTable.setBorder(null);
 		ItemTable.setBackground(new Color(44, 5, 72));
@@ -125,11 +136,27 @@ public class MainFrameEmployee extends JFrame {
 		LogOutBtn.setBackground(new Color(121, 204, 224));
 		LogOutBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ctrl.EmployeeLogOut();
+				ctrl.MFrameLogOut();
 			}
 		});
 		LogOutBtn.setFont(new Font("Dialog", Font.PLAIN, 34));
 		MainPanel.setLayout(null);
+		
+		JButton OrdersBtn = new JButton("Orders");
+		OrdersBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctrl.OrdersFrameOpen();
+			}
+		});
+		OrdersBtn.setFont(new Font("Dialog", Font.PLAIN, 33));
+		OrdersBtn.setBounds(1172, 426, 157, 76);
+		MainPanel.add(OrdersBtn);
+		
+		JLabel UserLbl = new JLabel("Logged as - "+getUser());
+		UserLbl.setForeground(Color.BLACK);
+		UserLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		UserLbl.setBounds(958, 610, 400, 52);
+		MainPanel.add(UserLbl);
 		
 
 		
@@ -139,11 +166,48 @@ public class MainFrameEmployee extends JFrame {
 		MainPanel.add(OpenCartBtn);
 		MainPanel.add(LogOutBtn);
 		
+		SearchTF = new JTextField();
+		SearchTF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SearchTF.setText("");
+			}
+		});
+		SearchTF.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(TModel);
+			    ItemTable.setRowSorter(sorter);
+			    String text = SearchTF.getText();
+	            if(text.length() == 0) {
+	               sorter.setRowFilter(null);
+	            } else {
+	                  sorter.setRowFilter(RowFilter.regexFilter(text));
+	             }
+			}
+		});
+		SearchTF.setText("Search here");
+		SearchTF.setHorizontalAlignment(SwingConstants.CENTER);
+		SearchTF.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		SearchTF.setColumns(10);
+		SearchTF.setBounds(958, 279, 400, 62);
+		MainPanel.add(SearchTF);
+		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 34));
-		lblNewLabel.setIcon(new ImageIcon(MainFrameEmployee.class.getResource("/images/Main Admin Frame.png")));
+		lblNewLabel.setIcon(new ImageIcon(MainFrame.class.getResource("/images/Main Admin Frame.png")));
 		lblNewLabel.setBounds(0, 0, 1383, 801);
 		MainPanel.add(lblNewLabel);
+	}
+
+	private String getUser() {
+		String user;
+		if(ctrl.getClient()==null) {
+			user = ctrl.getCashier().getUsername() +"-Employee";
+		}else {
+			user = ctrl.getClient().getUsername() + "-User"; 
+		}
+		return user;
 	}
 }
