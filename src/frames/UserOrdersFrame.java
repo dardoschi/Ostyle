@@ -1,11 +1,17 @@
 package frames;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import TableModels.OrderDetailTableModel;
 import TableModels.OrderListTableModel;
@@ -14,6 +20,7 @@ import main.Controller;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.JList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,11 +28,11 @@ import java.awt.event.MouseEvent;
 public class UserOrdersFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTable OrderDetailTable;
-	private JTable OrderListTable;
 	private Controller ctrl;
 	public OrderListTableModel OLTModel;
 	public OrderDetailTableModel ODTModel;
+	private JTable OrderDetailTable;
+	private JTable OrderListTable;
 
 	public UserOrdersFrame(Controller c) {
 		ctrl = c;
@@ -41,24 +48,69 @@ public class UserOrdersFrame extends JFrame {
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setBounds(11, 32, 1157, 612);
 		contentPane.add(splitPane);
-		splitPane.setDividerLocation(350);
+		splitPane.setDividerLocation(450);
 		
-		//fare questo on click su ordertable
-		OrderDetailTable = new JTable();
-		splitPane.setRightComponent(OrderDetailTable);
+		JScrollPane OrderListPanel = new JScrollPane();
+		splitPane.setLeftComponent(OrderListPanel);
+		
+		JScrollPane OrderDetailPanel = new JScrollPane();
+		splitPane.setRightComponent(OrderDetailPanel);
+		
+		ODTModel = new OrderDetailTableModel(ctrl.OrderItems);
+		OrderDetailTable = new JTable(ODTModel);
+		OrderDetailTable.setShowGrid(false);
+		OrderDetailTable.setFillsViewportHeight(true);
+		OrderDetailTable.setSelectionForeground(new Color(255, 255, 255));
+		OrderDetailTable.setSelectionBackground(new Color(72, 61, 139));
+		OrderDetailTable.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		OrderDetailTable.setForeground(new Color(255, 255, 255));
+		OrderDetailTable.setShowHorizontalLines(true);
+		OrderDetailTable.setBorder(null);
+		OrderDetailTable.setBackground(new Color(44, 5, 72));
+		((DefaultTableCellRenderer)OrderDetailTable.getTableHeader().getDefaultRenderer())
+	    .setHorizontalAlignment(JLabel.CENTER);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		OrderDetailTable.setDefaultRenderer(Integer.class, centerRenderer);
+		OrderDetailTable.setDefaultRenderer(String.class, centerRenderer);
+		OrderDetailTable.setDefaultRenderer(Double.class, centerRenderer);
+		OrderDetailTable.setAutoCreateRowSorter(true);
+		OrderDetailTable.getRowSorter().toggleSortOrder(0);
+		OrderDetailTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		OrderDetailTable.setRowHeight(35);
+		OrderDetailPanel.setViewportView(OrderDetailTable);
 		
 		OLTModel = new OrderListTableModel(ctrl.OrderList);
 		OrderListTable = new JTable(OLTModel);
+		OrderListTable.setShowGrid(false);
+		OrderListTable.setFillsViewportHeight(true);
+		OrderListTable.setSelectionForeground(new Color(255, 255, 255));
+		OrderListTable.setSelectionBackground(new Color(72, 61, 139));
+		OrderListTable.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		OrderListTable.setForeground(new Color(255, 255, 255));
+		OrderListTable.setShowHorizontalLines(true);
+		OrderListTable.setBorder(null);
+		OrderListTable.setBackground(new Color(44, 5, 72));
+		((DefaultTableCellRenderer)OrderListTable.getTableHeader().getDefaultRenderer())
+	    .setHorizontalAlignment(JLabel.CENTER);
+		OrderListTable.setDefaultRenderer(Integer.class, centerRenderer);
+		OrderListTable.setDefaultRenderer(String.class, centerRenderer);
+		OrderListTable.setDefaultRenderer(Double.class, centerRenderer);
+		OrderListTable.setAutoCreateRowSorter(true);
+		OrderListTable.getRowSorter().toggleSortOrder(2);
+		OrderListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		OrderListTable.setRowHeight(35);
 		OrderListTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ctrl.getOrderDetail((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0));
-				ODTModel = new OrderDetailTableModel(ctrl.OrderItems);
-				OrderDetailTable = new JTable(ODTModel);
-				splitPane.setRightComponent(OrderDetailTable);
+				ODTModel.fireTableDataChanged();
+				OrderDetailTable.setModel(ODTModel);
 			}
 		});
 		OrderListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		splitPane.setLeftComponent(OrderListTable);
+		OrderListPanel.setViewportView(OrderListTable);
+		
+		
 	}
 }

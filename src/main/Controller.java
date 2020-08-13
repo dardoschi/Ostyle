@@ -406,11 +406,13 @@ public class Controller {
 	}
 	
 	public void getOrderDetail(int CodO) {
+		OrderDetailList.clear();
 		ODDao.getOrderDetail(CodO, OrderDetailList);
 		getItemsFromOD(OrderDetailList);
 	}
 	
 	public void getItemsFromOD(ArrayList<OrderDetail> OD){
+		OrderItems.clear();
 		for (OrderDetail od : OD) {
 			Item i = IDao.getSelectedItemFromDB(od.getCodA());
 			i.setInCart(od.getAmount());
