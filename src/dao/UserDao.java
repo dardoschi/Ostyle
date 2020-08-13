@@ -15,7 +15,7 @@ public class UserDao {
 	public User UserLogin(String Username, String Password) {
 		PreparedStatement st;
 		try {
-			st = connection.prepareStatement("SELECT * from user WHERE username = ? and password = ?");
+			st = connection.prepareStatement("SELECT * from users WHERE username = ? and password = ?");
 			st.setString(1, Username);
 			st.setString(2, Password);
 		    ResultSet rs = st.executeQuery();
@@ -31,18 +31,17 @@ public class UserDao {
 	}
 	
 	
-	public boolean RegisterNewUser(String Name, String Surname, String Username, String Password, String Email, int CodU, String Address, int CardN) {
+	public boolean RegisterNewUser(String Name, String Surname, String Username, String Password, String Email, String Address, int CardN) {
 		PreparedStatement st;
 		try {
-			st = connection.prepareStatement("insert into user(values(?,?,?,?,?,?,?,?));");
+			st = connection.prepareStatement("insert into users(values(?,?,?,?,?,nextval('codu_seq'),?,?));");
 			st.setString(1, Name);
 			st.setString(2, Surname);
 			st.setString(3, Username);
 			st.setString(4, Password);
 			st.setString(5, Email);
-			st.setInt(6, CodU);
-			st.setString(7, Address);
-			st.setInt(8, CardN);
+			st.setString(6, Address);
+			st.setInt(7, CardN);
 			ResultSet rs = st.executeQuery();
 			return true;
 		}catch(SQLException ex) {

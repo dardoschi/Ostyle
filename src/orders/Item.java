@@ -1,4 +1,4 @@
-package Item;
+package orders;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,7 @@ public class Item {
 	private String Colour;
 	private int InStock;
 	private int InCart;
+	private String Name;
 	
 	//constructor
 	public Item() {
@@ -23,6 +24,7 @@ public class Item {
 		this.Colour = selected.getColour();
 		this.InStock = selected.getInStock();
 		this.InCart = 1;
+		this.Name = selected.getName();
 		
 	}
 
@@ -72,7 +74,14 @@ public class Item {
 		InCart = inCart;
 	}
 	
-	
+	public String getName() {
+		return Name;
+	}
+
+	public void setName(String name) {
+		this.Name = name;
+	}
+
 	//true if the item is in cart, false otherwise
 	public boolean checkInCart(ArrayList<Item> cart) {
 		int id = this.getId();

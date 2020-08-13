@@ -19,11 +19,13 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.NumberFormatter;
 
-import Item.Item;
 import main.Controller;
+import orders.Item;
+
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import javax.swing.JTextField;
 
 public class EditSelectedItemFrame extends JFrame {
 	
@@ -41,6 +43,8 @@ public class EditSelectedItemFrame extends JFrame {
 	private JFormattedTextField NewInStockTF;
 	private Item SelectedItem;
 	private JLabel lblNewLabel;
+	private JLabel lblName;
+	private JTextField NewNameTF;
 
 	public EditSelectedItemFrame(Controller c) {
 		setTitle("Edit Item");
@@ -48,7 +52,7 @@ public class EditSelectedItemFrame extends JFrame {
 		setResizable(false);
 		ctrl = c;
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 571, 547);
+		setBounds(100, 100, 571, 621);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -171,7 +175,7 @@ public class EditSelectedItemFrame extends JFrame {
 		
 		EditItemBtn = new JButton("Edit Item");
 		EditItemBtn.setBackground(new Color(135, 206, 250));
-		EditItemBtn.setBounds(313, 386, 160, 93);
+		EditItemBtn.setBounds(312, 457, 160, 93);
 		EditItemBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (check() == true) {
@@ -212,7 +216,8 @@ public class EditSelectedItemFrame extends JFrame {
 				String Type = NewTypeCB.getSelectedItem().toString();
 				int InStock = (int) NewInStockTF.getValue();
 				String Color = NewColorCB.getSelectedItem().toString();
-				ctrl.updateItemInDB(Id, Size, Price, Type, InStock, Color, OldId);
+				String Name = NewNameTF.getText();
+				ctrl.updateItemInDB(Id, Size, Price, Type, InStock, Color, Name, OldId);
 				dispose();
 				SelectedItem = new Item();
 			}
@@ -221,7 +226,7 @@ public class EditSelectedItemFrame extends JFrame {
 		
 		CancelBtn = new JButton("Cancel");
 		CancelBtn.setBackground(new Color(135, 206, 250));
-		CancelBtn.setBounds(100, 386, 160, 93);
+		CancelBtn.setBounds(99, 457, 160, 93);
 		CancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e2) {
 				dispose();
@@ -256,6 +261,7 @@ public class EditSelectedItemFrame extends JFrame {
 			  	  NewSizeCB.setSelectedIndex(getNewSizeCB());
 			  	  NewTypeCB.setSelectedIndex(getNewTypeCB());
 			  	  NewColorCB.setSelectedIndex(getNewColorCB());
+			  	  NewNameTF.setText(SelectedItem.getName());
 					
 			}
 			private int getNewSizeCB() {
@@ -318,9 +324,23 @@ public class EditSelectedItemFrame extends JFrame {
 		contentPane.add(NewInStockTF);
 		contentPane.add(lblTitle);
 		
+		lblName = new JLabel("Name");
+		lblName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblName.setForeground(new Color(135, 206, 250));
+		lblName.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblName.setBounds(68, 378, 126, 26);
+		contentPane.add(lblName);
+		
+		NewNameTF = new JTextField();
+		NewNameTF.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		NewNameTF.setHorizontalAlignment(SwingConstants.CENTER);
+		NewNameTF.setColumns(10);
+		NewNameTF.setBounds(212, 378, 272, 31);
+		contentPane.add(NewNameTF);
+		
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(EditSelectedItemFrame.class.getResource("/images/Add-Edit Frame.png")));
-		lblNewLabel.setBounds(0, 0, 567, 520);
+		lblNewLabel.setBounds(0, 0, 567, 586);
 		contentPane.add(lblNewLabel);
 
 	}

@@ -128,7 +128,7 @@ public class RegisterNewEmployeeFrame extends JFrame {
 			contentPane.add(CancelButton);
 			CancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ctrl.LoginFrameOpen();
+					ctrl.EmployeeLoginFrameOpen();
 				}
 			});
 			CancelButton.setFont(new Font("Tahoma", Font.PLAIN, 24));

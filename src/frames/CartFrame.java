@@ -7,9 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import Item.Item;
 import TableModels.ItemInCartTableModel;
 import main.Controller;
+import orders.Item;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -155,7 +156,7 @@ public class CartFrame extends JFrame {
 		RemoveAllBtn.setBounds(10, 529, 200, 60);
 		contentPane.add(RemoveAllBtn);
 		
-		TotalLbl = new JLabel("Total : "+ ctrl.getTotal() +" â‚¬");
+		TotalLbl = new JLabel("Total : "+ ctrl.getTotal() +"€");
 		TotalLbl.setForeground(Color.WHITE);
 		TotalLbl.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		TotalLbl.setBounds(236, 542, 373, 43);
@@ -172,6 +173,6 @@ public class CartFrame extends JFrame {
 	
 	//updates the total calling the total calculator function in ctrl
 	public void updateTotal() {
-		TotalLbl.setText("Total : "+ ctrl.getTotal() +" â‚¬");
+		TotalLbl.setText("Total : "+ ctrl.getTotal() +"€");
 	}
 }

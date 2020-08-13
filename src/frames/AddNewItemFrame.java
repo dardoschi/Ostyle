@@ -22,6 +22,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Toolkit;
+import javax.swing.JTextField;
 
 public class AddNewItemFrame extends JFrame {
 
@@ -37,6 +38,7 @@ public class AddNewItemFrame extends JFrame {
 	private JButton CancelBtn;
 	private JLabel lblInStock;
 	private JFormattedTextField NewInStockTF;
+	private JTextField NewNameTF;
 
 	public AddNewItemFrame(Controller c) {
 		setResizable(false);
@@ -44,7 +46,7 @@ public class AddNewItemFrame extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AddNewItemFrame.class.getResource("/images/logo_size_invert.jpg")));
 		ctrl = c;
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 575, 541);
+		setBounds(100, 100, 575, 643);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -166,12 +168,12 @@ public class AddNewItemFrame extends JFrame {
 		
 		AddItemBtn = new JButton("Add Item");
 		AddItemBtn.setBackground(new Color(135, 206, 250));
-		AddItemBtn.setBounds(310, 393, 160, 93);
+		AddItemBtn.setBounds(315, 456, 160, 93);
 		AddItemBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(inputCheck()==true) {
 					if(ctrl.CheckItemId((int) NewIdTF.getValue())==true) {
-						ctrl.AddNewItem((int) NewIdTF.getValue(),NewSizeCB.getSelectedItem().toString(), (double) NewPriceTF.getValue(), NewTypeCB.getSelectedItem().toString(),(int) NewInStockTF.getValue(), NewColorCB.getSelectedItem().toString());
+						ctrl.AddNewItem((int) NewIdTF.getValue(),NewSizeCB.getSelectedItem().toString(), (double) NewPriceTF.getValue(), NewTypeCB.getSelectedItem().toString(),(int) NewInStockTF.getValue(), NewColorCB.getSelectedItem().toString(), NewNameTF.getText());
 						resetFrame();
 					}else
 						JOptionPane.showMessageDialog(new JFrame(), "Please change id","ERROR", JOptionPane.ERROR_MESSAGE);
@@ -183,11 +185,12 @@ public class AddNewItemFrame extends JFrame {
 				NewIdTF.setValue(null);
 				NewPriceTF.setValue(null);
 				NewInStockTF.setValue(null);
+				NewNameTF.setText("");
 				setVisible(false);	
 			}
 			//checks for blank spaces, true if ok
 			private boolean inputCheck() {
-				if(NewIdTF.getValue()==null || NewPriceTF.getValue()==null || NewInStockTF.getValue()==null) { 
+				if(NewIdTF.getValue()==null || NewPriceTF.getValue()==null || NewInStockTF.getValue()==null || NewNameTF.getText()==null) { 
 					return false;
 				}
 				return true;
@@ -197,7 +200,7 @@ public class AddNewItemFrame extends JFrame {
 		
 		CancelBtn = new JButton("Cancel");
 		CancelBtn.setBackground(new Color(135, 206, 250));
-		CancelBtn.setBounds(102, 393, 160, 93);
+		CancelBtn.setBounds(107, 456, 160, 93);
 		CancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e2) {
 				setVisible(false);
@@ -237,9 +240,23 @@ public class AddNewItemFrame extends JFrame {
 		contentPane.add(NewInStockTF);
 		contentPane.add(lblTitle);
 		
+		NewNameTF = new JTextField();
+		NewNameTF.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		NewNameTF.setHorizontalAlignment(SwingConstants.CENTER);
+		NewNameTF.setBounds(198, 393, 272, 31);
+		contentPane.add(NewNameTF);
+		NewNameTF.setColumns(10);
+		
+		JLabel lblName = new JLabel("Name");
+		lblName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblName.setForeground(new Color(135, 206, 250));
+		lblName.setFont(new Font("Dialog", Font.PLAIN, 20));
+		lblName.setBounds(54, 393, 126, 26);
+		contentPane.add(lblName);
+		
 		JLabel backgroundLbl = new JLabel("");
 		backgroundLbl.setIcon(new ImageIcon(AddNewItemFrame.class.getResource("/images/Add-Edit Frame.png")));
-		backgroundLbl.setBounds(0, 0, 571, 520);
+		backgroundLbl.setBounds(0, 0, 571, 614);
 		contentPane.add(backgroundLbl);
 	}
 }
