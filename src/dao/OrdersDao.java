@@ -48,4 +48,17 @@ public class OrdersDao {
 			e3.printStackTrace();
 		}	
 	}
+	
+	public void OrderReturn(int CodO) {
+		PreparedStatement st;
+		try {
+			st = conn.prepareStatement("delete from orders where codo = ?");
+			st.setInt(1, CodO);
+			ResultSet rs = st.executeQuery();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

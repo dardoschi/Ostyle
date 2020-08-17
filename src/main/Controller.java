@@ -57,6 +57,8 @@ public class Controller {
 		Warehouse = new ArrayList<Item>();
 		Cart = new ArrayList<Item>();
 		OrderItems = new ArrayList<Item>();
+		OrderList = new ArrayList<Order>();
+		OrderDetailList = new ArrayList<OrderDetail>();
 		IDao = new ItemDao();
 		EDao = new EmployeeDao();
 		UDao = new UserDao();
@@ -64,6 +66,7 @@ public class Controller {
 		ODDao = new OrderDetailDao();
 		EmployeeLoginFrame = new EmployeeLoginFrame(this);
 		UserLogFrame = new UserLoginFrame(this);
+		//OrdersFrame = new UserOrdersFrame(this);
 		LoadWarehouseArray(Warehouse);
 		MAdminFrame = new MainFrameAdmin(this);
 		//MFrame = new MainFrame(this);
@@ -185,10 +188,9 @@ public class Controller {
 			UserLogFrame.setVisible(false);
 			System.out.println("Logged as "+user.getUsername());
 			setClient(user);
-			GetUserOrderList(user.getCodU());
-			UpdateUserOrderList(OrderList);
 			MFrame = new MainFrame(this);
 			MFrame.setVisible(true);			//apri menu utente
+			OrdersFrame = new UserOrdersFrame(this);
 		}
 	}
 	
@@ -220,10 +222,11 @@ public class Controller {
 			//user logout
 			MFrame.setVisible(false);
 			UserLogFrame.setVisible(true);
-			System.out.println(Client.getUsername());
 			setClient(null);
 			UpdateUserOrderList(OrderList);
 			MFrame.dispose();
+			OrdersFrame.dispose();
+			OrdersFrame = null;	
 		}else {
 			EmployeeLogOut();
 		}
@@ -252,7 +255,7 @@ public class Controller {
 	public void ReloadDBTable() {
 		reloadWarehouseArray(Warehouse);
 		MAdminFrame.TModel.fireTableDataChanged();
-		//MFrame.TModel.fireTableDataChanged();
+		MFrame.TModel.fireTableDataChanged();
 	} 
 	//add new item
 	public void AddNewItem(int Id, String Size, double Price, String Type, int InStock, String Colour, String Name) {
@@ -311,6 +314,7 @@ public class Controller {
 	public void BuyandUpdate(){
 		for(Item i : Cart) {
 			int id = i.getId();
+			
 			int sold = i.getInCart();
 			IDao.updateOnSaleInDB(sold, id);
 		}
@@ -324,10 +328,12 @@ public class Controller {
 	public void CreateOrder(){
 		//per ora solo clienti
 		int NewCodO = ODao.CreateOrder(Client.getCodU(), getTotal());
-		System.out.println(NewCodO);
 		for(Item i : Cart) {
 			ODDao.CreateOrderDetail(NewCodO, i);
 		}
+		UpdateUserOrderList(OrderList);
+		OrdersFrame.ODTModel.fireTableDataChanged();
+		OrdersFrame.OLTModel.fireTableDataChanged();
 	}
 	
 	
@@ -381,9 +387,7 @@ public class Controller {
 	}
 	
 	public void GetUserOrderList(int CodU) {
-		OrderList = new ArrayList<Order>();
-		OrderDetailList = new ArrayList<OrderDetail>();
-		ODao.GetUserOrders(1, OrderList);
+		ODao.GetUserOrders(Client.getCodU(), OrderList);
 	}
 	
 	public void OrdersFrameOpen() {
@@ -398,9 +402,11 @@ public class Controller {
 		if(Client == null) {
 			OrderList.clear();
 			OrderDetailList.clear();
+			OrderItems.clear();
 		}else {
 			OrderList.clear();
 			OrderDetailList.clear();
+			OrderItems.clear();
 			GetUserOrderList(Client.getCodU());
 		}
 	}
@@ -420,7 +426,13 @@ public class Controller {
 		}
 	}
 	
-	
+	public void ReturnOrder(int CodO) {
+		ODao.OrderReturn(CodO);
+		OrdersFrame.OLTModel.fireTableDataChanged();
+		OrdersFrame.ODTModel.fireTableDataChanged();
+		UpdateUserOrderList(OrderList);
+		ReloadDBTable();
+	}
 	
 	
 	
