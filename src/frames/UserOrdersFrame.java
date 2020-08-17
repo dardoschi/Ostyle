@@ -24,6 +24,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UserOrdersFrame extends JFrame {
 
@@ -33,13 +36,15 @@ public class UserOrdersFrame extends JFrame {
 	public OrderDetailTableModel ODTModel;
 	private JTable OrderDetailTable;
 	private JTable OrderListTable;
-
+	private int CodO;
+	
 	public UserOrdersFrame(Controller c) {
 		ctrl = c;
+		ctrl.GetUserOrderList(ctrl.getClient().getCodU());
 		setTitle("User Orders");
 		setResizable(false);
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1194, 798);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 1194, 782);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -97,19 +102,60 @@ public class UserOrdersFrame extends JFrame {
 		OrderListTable.setDefaultRenderer(String.class, centerRenderer);
 		OrderListTable.setDefaultRenderer(Double.class, centerRenderer);
 		OrderListTable.setAutoCreateRowSorter(true);
-		OrderListTable.getRowSorter().toggleSortOrder(2);
+		OrderListTable.getRowSorter().toggleSortOrder(0);
+		OrderListTable.getRowSorter().toggleSortOrder(0);//2volte per reverse
 		OrderListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		OrderListTable.setRowHeight(35);
 		OrderListTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ctrl.getOrderDetail((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0));
-				ODTModel.fireTableDataChanged();
-				OrderDetailTable.setModel(ODTModel);
+				try {
+					ctrl.getOrderDetail((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0));
+					CodO = (int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0);
+					OLTModel.fireTableDataChanged();
+					ODTModel.fireTableDataChanged();
+				}catch(java.lang.ArrayIndexOutOfBoundsException ex) {
+					System.out.println("failed to get order from table");
+				}
 			}
 		});
-		OrderListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		//OrderListTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		OrderListPanel.setViewportView(OrderListTable);
+		
+		JLabel lblNewLabel = new JLabel("Orders List");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(10, 0, 451, 32);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblOrderDetail = new JLabel("Order Detail");
+		lblOrderDetail.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOrderDetail.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblOrderDetail.setBounds(466, 0, 702, 32);
+		contentPane.add(lblOrderDetail);
+		
+		JButton ReturnBtn = new JButton("Return Order");
+		ReturnBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//System.out.print((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0));
+				//ctrl.ReturnOrder((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0));
+				ctrl.ReturnOrder(CodO);
+				System.out.print((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0)+ "returned");
+			}
+		});
+		ReturnBtn.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		ReturnBtn.setBounds(111, 655, 197, 63);
+		contentPane.add(ReturnBtn);
+		
+		JButton BackBtn = new JButton("Back to shopping");
+		BackBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		BackBtn.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		BackBtn.setBounds(908, 655, 260, 50);
+		contentPane.add(BackBtn);
 		
 		
 	}
