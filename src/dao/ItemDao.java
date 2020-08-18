@@ -11,14 +11,7 @@ import orders.Item;
 
 public class ItemDao {
 	
-	//private Controller ctrl;
 	private Connection connection = DBConnection.getDBConnection();
-	
-	//constructor
-	//public ItemDao (Controller Contrl) {
-	//	ctrl = Contrl;
-	//};
-	
 		
 		//Loads the ArrayList used for the jtable in mainframe
 		public void getWarehousefromDB(ArrayList<Item> warehouse) {
@@ -141,18 +134,6 @@ public class ItemDao {
 		}
 		
 	}
-	
-	
-	//UPDATE item SET instock = (instock - a) WHERE id = b
-	
-   /*CREATE FUNCTION update_on_sale (a integer, b integer) RETURNS void AS '
-    UPDATE item SET instock = (instock - a) WHERE id = b
-	' LANGUAGE SQL ; */
-	
-	/*				DO $$ BEGIN
-    				PERFORM update_on_sale(parametri);
-					END $$;
-	 */
 	
 	//updates the InStock value for the sold items
 	public void updateOnSaleInDB(int sold, int id) {

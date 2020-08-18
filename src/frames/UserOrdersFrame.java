@@ -22,6 +22,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -40,7 +42,11 @@ public class UserOrdersFrame extends JFrame {
 	
 	public UserOrdersFrame(Controller c) {
 		ctrl = c;
-		ctrl.GetUserOrderList(ctrl.getClient().getCodU());
+		if(ctrl.getClient()==null) {
+			ctrl.GetUserOrderList(0);
+		}else {
+			ctrl.GetUserOrderList(ctrl.getClient().getCodU());
+		}
 		setTitle("User Orders");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -137,9 +143,11 @@ public class UserOrdersFrame extends JFrame {
 		JButton ReturnBtn = new JButton("Return Order");
 		ReturnBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//System.out.print((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0));
-				//ctrl.ReturnOrder((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0));
-				ctrl.ReturnOrder(CodO);
+				if(JOptionPane.showConfirmDialog(null,"Do you want to proceed?", "Select an Option...",JOptionPane.YES_NO_OPTION)==0) {
+					ctrl.ReturnOrder(CodO);
+				}else {
+					//nothing
+				}
 				System.out.print((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0)+ "returned");
 			}
 		});

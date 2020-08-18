@@ -29,6 +29,7 @@ public class UserLoginFrame extends JFrame {
 	private JPasswordField PasswordField;
 	
 	public UserLoginFrame(Controller control) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UserLoginFrame.class.getResource("/images/logo_size_invert.jpg")));
 		setResizable(false);
 		setTitle("O'Style [USER]");
 		ctrl = control;

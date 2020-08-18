@@ -29,7 +29,7 @@ public class EmployeeLoginFrame extends JFrame {
 	public EmployeeLoginFrame(Controller control) {
 		setResizable(false);
 		setTitle("O'Style");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("F:\\UNI\\progetto\\logo_size_invert.jpg"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(EmployeeLoginFrame.class.getResource("/images/logo_size_invert.jpg")));
 		ctrl = control;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1073, 702);
@@ -68,7 +68,7 @@ public class EmployeeLoginFrame extends JFrame {
 		
 		
 		//register button
-		JButton RegisterButton = new JButton("Register \r\nnew user");
+		JButton RegisterButton = new JButton("Register \r\nnew employee");
 		RegisterButton.setBounds(65, 578, 250, 55);
 		contentPane.add(RegisterButton);
 		RegisterButton.addActionListener(new ActionListener() {
@@ -76,7 +76,7 @@ public class EmployeeLoginFrame extends JFrame {
 				ctrl.RegisterEmployeeFrameOpen();
 			}
 		});
-		RegisterButton.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		RegisterButton.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		
 		PasswordField = new JPasswordField();
 		PasswordField.setBounds(303, 477, 323, 47);
@@ -111,7 +111,7 @@ public class EmployeeLoginFrame extends JFrame {
 			PasswordField.setText("");
 		}else
 			if((UsernameTextField.getText().length()>0 || PasswordField.getText().length()>0)) {
-				ctrl.EmpoloyeeLogin(UsernameTextField.getText(),PasswordField.getText());
+				ctrl.EmployeeLogin(UsernameTextField.getText(),PasswordField.getText());
 				UsernameTextField.setText("");
 				PasswordField.setText("");
 			}

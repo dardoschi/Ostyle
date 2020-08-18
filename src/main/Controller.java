@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import frames.AddNewItemFrame;
 import frames.CartFrame;
 import frames.EditSelectedItemFrame;
+import frames.EmployeeFrame;
 import frames.EmployeeLoginFrame;
 import frames.MainFrame;
 import frames.RegisterNewEmployeeFrame;
@@ -37,6 +38,7 @@ public class Controller {
 	private UserLoginFrame UserLogFrame;
 	private MainFrameAdmin MAdminFrame;
 	private MainFrame MFrame;
+	private EmployeeFrame EFrame;
 	private RegisterNewEmployeeFrame RegisterEmployeeFrame;
 	private RegisterNewUserFrame RegisterUserFrame;
 	private EditSelectedItemFrame EditFrame;
@@ -66,15 +68,12 @@ public class Controller {
 		ODDao = new OrderDetailDao();
 		EmployeeLoginFrame = new EmployeeLoginFrame(this);
 		UserLogFrame = new UserLoginFrame(this);
-		//OrdersFrame = new UserOrdersFrame(this);
 		LoadWarehouseArray(Warehouse);
 		MAdminFrame = new MainFrameAdmin(this);
-		//MFrame = new MainFrame(this);
 		RegisterEmployeeFrame = new RegisterNewEmployeeFrame(this);
 		RegisterUserFrame = new RegisterNewUserFrame(this);
 		AddFrame = new AddNewItemFrame(this);
 		CFrame = new CartFrame(this);
-		//EmployeeLoginFrame.setVisible(true);
 		UserLogFrame.setVisible(true);
 	}
 	
@@ -159,7 +158,7 @@ public class Controller {
 			CFrame.setVisible(true);
 	}
 	
-	public void EmpoloyeeLogin(String Username, String Password) {
+	public void EmployeeLogin(String Username, String Password) {
 		Employee user = EDao.Login(Username, Password);
 		if(user == null) {
 			EmployeeLoginFrame.UnregisteredUser();
@@ -171,8 +170,8 @@ public class Controller {
 				}else if(user.isAdmin()==false) {
 					EmployeeLoginFrame.setVisible(false);
 					setCashier(user);
-					MFrame = new MainFrame(this);
-					MFrame.setVisible(true);
+					EFrame = new EmployeeFrame(this);
+					EFrame.setVisible(true);
 				}
 
 			}
@@ -199,23 +198,16 @@ public class Controller {
 		if(Cashier.isAdmin()==true) {
 			MAdminFrame.setVisible(false);
 		}else if(Cashier.isAdmin()==false) {
-			MFrame.setVisible(false);
+			EFrame.setVisible(false);
 		}
 		//EmployeeLoginFrame.setVisible(true);
 		UserLogFrame.setVisible(true);
 		System.out.println(Cashier.getUsername());
 		setCashier(null);
-		MFrame.dispose();
+		OrdersFrame.dispose();
+		OrdersFrame = null;	
 		
 	}
-	
-	/*public void UserLogOut() {
-		MFrame.setVisible(false);
-		UserLogFrame.setVisible(true);
-		System.out.println(Client.getUsername());
-		setClient(null);
-		MFrame.dispose();
-	}*/
 		
 	public void MFrameLogOut() {
 		if(Cashier==null) {
@@ -304,7 +296,12 @@ public class Controller {
 					Cart.get(index).inStockMinusOne();
 					}
 			CFrame.TModel.fireTableDataChanged();
-			MFrame.TModel.fireTableDataChanged();
+			if(EFrame != null) {
+				EFrame.TModel.fireTableDataChanged();
+			}
+			if(MFrame != null) {
+				MFrame.TModel.fireTableDataChanged();
+			}
 			getTotal();
 			CFrame.updateTotal();
 		}
@@ -314,15 +311,25 @@ public class Controller {
 	public void BuyandUpdate(){
 		for(Item i : Cart) {
 			int id = i.getId();
-			
 			int sold = i.getInCart();
 			IDao.updateOnSaleInDB(sold, id);
 		}
-		CreateOrder();
+		if(Cashier != null) {
+			for(Item i : Cart) {
+				EDao.CreateSoldInStore(Cashier.getCodI(), i);
+			}
+		}else {
+			CreateOrder();
+		}
+		if(EFrame != null) {
+			EFrame.TModel.fireTableDataChanged();
+		}
+		if(MFrame != null) {
+			MFrame.TModel.fireTableDataChanged();
+		}
 		Cart.clear();
-		MFrame.TModel.fireTableDataChanged();
 		CFrame.TModel.fireTableDataChanged();
-		CFrame.updateTotal();
+		CFrame.updateTotal();	
 	}
 	
 	public void CreateOrder(){
@@ -387,7 +394,11 @@ public class Controller {
 	}
 	
 	public void GetUserOrderList(int CodU) {
-		ODao.GetUserOrders(Client.getCodU(), OrderList);
+		if(Client == null && Cashier.isAdmin()== true) {
+			ODao.GetAllOrders(OrderList);
+		}else {
+			ODao.GetUserOrders(Client.getCodU(), OrderList);
+		}
 	}
 	
 	public void OrdersFrameOpen() {
@@ -433,14 +444,4 @@ public class Controller {
 		UpdateUserOrderList(OrderList);
 		ReloadDBTable();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }	

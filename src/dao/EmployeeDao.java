@@ -6,17 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import main.Controller;
+import orders.Item;
 import people.Employee;
 
 public class EmployeeDao {
 	
-	//private Controller ctrl;
 	private Connection conn = DBConnection.getDBConnection();
-	
-	//public EmployeeDao(Controller c) {
-	//	ctrl = c;
-	//}
-
 	
 	public Employee Login(String Username, String Password) {
 		PreparedStatement st;
@@ -60,6 +55,20 @@ public class EmployeeDao {
 			}else {
 					return true;
 			}
+		}
+	}
+	
+	public void CreateSoldInStore(int CodI, Item i) {
+		PreparedStatement st;
+		try {
+			st = conn.prepareStatement("insert into soldinstore(values(?, ?, ?, current_date))");
+			st.setInt(1, CodI);
+			st.setInt(2, i.getId());
+			st.setInt(3, i.getInCart());
+			ResultSet rs = st.executeQuery();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	 

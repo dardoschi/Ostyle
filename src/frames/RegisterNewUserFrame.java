@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
+import java.awt.Toolkit;
 
 public class RegisterNewUserFrame extends JFrame {
 	
@@ -32,6 +33,7 @@ public class RegisterNewUserFrame extends JFrame {
 	private JFormattedTextField CardNTF;
 
 	public RegisterNewUserFrame(Controller control) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegisterNewUserFrame.class.getResource("/images/logo_size_invert.jpg")));
 		ctrl = control;
 		setResizable(false);
 		setTitle("Register New User");

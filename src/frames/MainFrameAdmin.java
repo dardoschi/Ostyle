@@ -94,10 +94,10 @@ public class MainFrameAdmin extends JFrame {
 		ItemTable.setRowHeight(35);
 		
 
-		JButton SearchRefreshBtn = new JButton("Refresh");
+		JButton SearchRefreshBtn = new JButton("Refresh table");
 		SearchRefreshBtn.setBackground(new Color(121, 204, 224));
-		SearchRefreshBtn.setBounds(949, 16, 400, 100);
-		SearchRefreshBtn.setFont(new Font("Tahoma", Font.PLAIN, 34));
+		SearchRefreshBtn.setBounds(1203, 368, 141, 48);
+		SearchRefreshBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		SearchRefreshBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ctrl.ReloadDBTable();							
@@ -106,7 +106,7 @@ public class MainFrameAdmin extends JFrame {
 		
 		JButton EditSelectedBtn = new JButton("Edit Selected");
 		EditSelectedBtn.setBackground(new Color(121, 204, 224));
-		EditSelectedBtn.setBounds(949, 247, 400, 100);
+		EditSelectedBtn.setBounds(949, 130, 400, 100);
 		EditSelectedBtn.setFont(new Font("Tahoma", Font.PLAIN, 34));
 		EditSelectedBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -120,9 +120,9 @@ public class MainFrameAdmin extends JFrame {
 			}
 		});
 		
-		JButton AddItemBtn = new JButton("AddNew");
+		JButton AddItemBtn = new JButton("Add New Item");
 		AddItemBtn.setBackground(new Color(121, 204, 224));
-		AddItemBtn.setBounds(949, 128, 400, 100);
+		AddItemBtn.setBounds(949, 11, 400, 100);
 		AddItemBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ctrl.AddNewItemFrameOpen();
@@ -142,7 +142,7 @@ public class MainFrameAdmin extends JFrame {
 		
 		JButton RemoveBtn = new JButton("Remove");
 		RemoveBtn.setBackground(new Color(121, 204, 224));
-		RemoveBtn.setBounds(949, 374, 400, 100);
+		RemoveBtn.setBounds(949, 257, 400, 100);
 		RemoveBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = ItemTable.getSelectedRow();
@@ -160,6 +160,16 @@ public class MainFrameAdmin extends JFrame {
 		});
 		RemoveBtn.setFont(new Font("Tahoma", Font.PLAIN, 34));
 		MainPanel.setLayout(null);
+		
+		JButton ViewOrdersBtn = new JButton("View Orders");
+		ViewOrdersBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctrl.OrdersFrameOpen(); 
+			}
+		});
+		ViewOrdersBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		ViewOrdersBtn.setBounds(1202, 420, 141, 69);
+		MainPanel.add(ViewOrdersBtn);
 		
 		
 		ItemscrollPane.setViewportView(ItemTable);
