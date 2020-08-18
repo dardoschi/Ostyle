@@ -34,7 +34,7 @@ public class UserDao {
 	public boolean RegisterNewUser(String Name, String Surname, String Username, String Password, String Email, String Address, int CardN) {
 		PreparedStatement st;
 		try {
-			st = connection.prepareStatement("insert into users(values(?,?,?,?,?,nextval('codu_seq'),?,?));");
+			st = connection.prepareStatement("insert into users (name, surname, username, password, email, address, cardn) (values(?,?,?,?,?,?,?));");
 			st.setString(1, Name);
 			st.setString(2, Surname);
 			st.setString(3, Username);

@@ -11,7 +11,6 @@ public class OrderDetailTableModel extends AbstractTableModel{
     private String[] columnNames = { "Name","Size","Price","Type","Colour","Amount"}; 
     private Class<?>[] types = new Class[]{ String.class, String.class, Double.class, String.class, String.class, Integer.class};
     
-    //needed as dummy for the constructor(Warehouse arrayList of the controller copied here)
 	public ArrayList<Item> Order ;
 	
     public OrderDetailTableModel (ArrayList<Item> Order){

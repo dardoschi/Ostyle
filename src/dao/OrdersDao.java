@@ -60,5 +60,18 @@ public class OrdersDao {
 		}
 	}
 	
-	
+	public void GetAllOrders(ArrayList<Order> OrdList ) {
+		PreparedStatement st;
+		Order ord;
+		try {
+				st = conn.prepareStatement("select * from orders");
+				ResultSet rs = st.executeQuery();
+				while (rs.next()) {
+					ord = new Order(rs.getInt("codo"),rs.getInt("codu"),rs.getDouble("totalprice"), rs.getDate("date"));
+					OrdList.add(ord);
+				}
+		}catch(SQLException e3) {
+			e3.printStackTrace();
+		}	
+	}
 }
