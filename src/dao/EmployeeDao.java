@@ -35,16 +35,15 @@ public class EmployeeDao {
 	}
 	
 	//register user
-	public boolean RegisterNewEmployee(String Username, String Password, boolean Admin, String Name, String Surname, int CodI) { //
+	public boolean RegisterNewEmployee(String Username, String Password, boolean Admin, String Name, String Surname) {
 		PreparedStatement st;
 		try {
-				st = conn.prepareStatement("insert into employees(values(?,?,?,?,?,?));");
+				st = conn.prepareStatement("insert into employees(username, password, admin, name, surname) values(?,?,?,?,?);");
 				st.setString(1, Username);
 				st.setString(2, Password);
 				st.setBoolean(3, Admin);
 				st.setString(4, Name);
 				st.setString(5, Surname);
-				st.setInt(6, CodI);
 				ResultSet rs = st.executeQuery();
 				return true;
 		}

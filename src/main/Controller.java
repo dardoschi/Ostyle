@@ -223,9 +223,10 @@ public class Controller {
 			EmployeeLogOut();
 		}
 	}
+	
 	//register a new user
-	public void RegisterEmployee(String Username, String Password,boolean Admin, String Name, String Surname, int CodI) { //
-		if(EDao.RegisterNewEmployee(Username, Password, Admin, Name, Surname, CodI)==true){ //
+	public void RegisterEmployee(String Username, String Password,boolean Admin, String Name, String Surname) { 
+		if(EDao.RegisterNewEmployee(Username, Password, Admin, Name, Surname)==true){ 
 			RegisterEmployeeFrame.UserHasBeenRegistered();
 			RegisterEmployeeFrame.setVisible(false);
 			EmployeeLoginFrame.setVisible(true);

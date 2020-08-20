@@ -30,7 +30,6 @@ public class RegisterNewEmployeeFrame extends JFrame {
 	private JRadioButton AdminRdBtn;
 	private JTextField NSurnameTextField;
 	private JTextField NNameTextField;
-	private JFormattedTextField CodIFTF;
 
 
 	public RegisterNewEmployeeFrame(Controller control) {
@@ -47,12 +46,6 @@ public class RegisterNewEmployeeFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel InsertCodILbl = new JLabel("Insert CodI");
-		InsertCodILbl.setForeground(new Color(75, 0, 130));
-		InsertCodILbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		InsertCodILbl.setBounds(659, 331, 134, 46);
-		contentPane.add(InsertCodILbl);
-		
 		//formatter for Id and InStock TF that only accept Integers, with max in range
 		NumberFormat Intformat = NumberFormat.getInstance();
 		Intformat.setGroupingUsed(false);//Remove comma from number greater than 4 digit
@@ -61,13 +54,7 @@ public class RegisterNewEmployeeFrame extends JFrame {
 		IntFormatter.setMinimum(0);
 		IntFormatter.setMaximum(2147483647);
 		IntFormatter.setAllowsInvalid(false);
-		IntFormatter.setCommitsOnValidEdit(true);// committ value on each keystroke instead of focus lost
-				
-		CodIFTF = new JFormattedTextField(IntFormatter);
-		CodIFTF.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		CodIFTF.setBounds(659, 373, 148, 40);
-		CodIFTF.setColumns(10);
-		contentPane.add(CodIFTF);
+		IntFormatter.setCommitsOnValidEdit(true);
 		
 		JLabel InsertSurnameLbl = new JLabel("Insert Surname");
 		InsertSurnameLbl.setForeground(new Color(75, 0, 130));
@@ -112,7 +99,7 @@ public class RegisterNewEmployeeFrame extends JFrame {
 		NPasswordTextField.setColumns(10);
 		
 		AdminRdBtn = new JRadioButton("Admin");
-		AdminRdBtn.setBounds(512, 375, 104, 38);
+		AdminRdBtn.setBounds(682, 372, 130, 38);
 		contentPane.add(AdminRdBtn);
 		AdminRdBtn.setBackground(Color.WHITE);
 		AdminRdBtn.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -158,27 +145,21 @@ public class RegisterNewEmployeeFrame extends JFrame {
 
 	//register user call
 	private void Register(){
-		if((NUsernameTextField.getText().length()<=0 || NPasswordTextField.getText().length()<=0)){
+		if((NUsernameTextField.getText().length()<=0 || NPasswordTextField.getText().length()<=0 || NNameTextField.getText().length()<=0 || NSurnameTextField.getText().length()<=0)){
 			JOptionPane.showMessageDialog(new JFrame(), "Please insert valid values","WRONG VALUES", JOptionPane.ERROR_MESSAGE);
 			NUsernameTextField.setText("");
 			NPasswordTextField.setText("");
 			NNameTextField.setText("");
 			NSurnameTextField.setText("");
-			CodIFTF.setValue(null);
 		}else
 			if((NUsernameTextField.getText().length()>0 || NPasswordTextField.getText().length()>0)) {													
-				ctrl.RegisterEmployee(NUsernameTextField.getText(),NPasswordTextField.getText(),AdminRdBtn.isSelected(),NNameTextField.getText(),NSurnameTextField.getText(),(int)CodIFTF.getValue());
+				ctrl.RegisterEmployee(NUsernameTextField.getText(),NPasswordTextField.getText(),AdminRdBtn.isSelected(),NNameTextField.getText(),NSurnameTextField.getText());
 			}
 	}
 	
 	//user already registered
 	public void UserAlreadyRegistered() {
 		JOptionPane.showMessageDialog(new JFrame(), "User already registered, change ID","", JOptionPane.ERROR_MESSAGE);
-		//NUsernameTextField.setText("");
-		//NPasswordTextField.setText("");
-		//NNameTextField.setText("");
-		//NSurnameTextField.setText("");
-		CodIFTF.setValue(null);
 	}
 	
 	//user has been registered
@@ -188,6 +169,5 @@ public class RegisterNewEmployeeFrame extends JFrame {
 		NPasswordTextField.setText("");
 		NNameTextField.setText("");
 		NSurnameTextField.setText("");
-		CodIFTF.setValue(null);
 	}
 }
