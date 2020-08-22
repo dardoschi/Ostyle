@@ -29,6 +29,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class UserOrdersFrame extends JFrame {
 
@@ -41,6 +42,7 @@ public class UserOrdersFrame extends JFrame {
 	private int CodO;
 	
 	public UserOrdersFrame(Controller c) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UserOrdersFrame.class.getResource("/images/logo_size_invert.jpg")));
 		ctrl = c;
 		if(ctrl.getClient()==null) {
 			ctrl.GetUserOrderList(0);
