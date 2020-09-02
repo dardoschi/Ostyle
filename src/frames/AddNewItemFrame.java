@@ -255,7 +255,8 @@ public class AddNewItemFrame extends JFrame {
 		contentPane.add(lblName);
 		
 		JLabel backgroundLbl = new JLabel("");
-		backgroundLbl.setIcon(new ImageIcon(AddNewItemFrame.class.getResource("/images/Add-Edit Frame.png")));
+		backgroundLbl.setHorizontalAlignment(SwingConstants.RIGHT);
+		backgroundLbl.setIcon(new ImageIcon(AddNewItemFrame.class.getResource("/images/Login Frame.png")));
 		backgroundLbl.setBounds(0, 0, 571, 614);
 		contentPane.add(backgroundLbl);
 	}
