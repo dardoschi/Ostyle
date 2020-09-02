@@ -96,7 +96,7 @@ public class MainFrameAdmin extends JFrame {
 
 		JButton SearchRefreshBtn = new JButton("Refresh table");
 		SearchRefreshBtn.setBackground(new Color(121, 204, 224));
-		SearchRefreshBtn.setBounds(1203, 368, 141, 48);
+		SearchRefreshBtn.setBounds(1184, 378, 141, 48);
 		SearchRefreshBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		SearchRefreshBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -162,13 +162,14 @@ public class MainFrameAdmin extends JFrame {
 		MainPanel.setLayout(null);
 		
 		JButton ViewOrdersBtn = new JButton("View Orders");
+		ViewOrdersBtn.setBackground(new Color(121, 204, 224));
 		ViewOrdersBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ctrl.OrdersFrameOpen(); 
 			}
 		});
 		ViewOrdersBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		ViewOrdersBtn.setBounds(1202, 420, 141, 69);
+		ViewOrdersBtn.setBounds(1184, 453, 141, 69);
 		MainPanel.add(ViewOrdersBtn);
 		
 		

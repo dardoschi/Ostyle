@@ -19,6 +19,8 @@ import java.text.NumberFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 public class RegisterNewUserFrame extends JFrame {
 	
@@ -98,43 +100,43 @@ public class RegisterNewUserFrame extends JFrame {
 		contentPane.add(CardNTF);
 		
 		JLabel InsertNameLbl = new JLabel("Insert Name");
-		InsertNameLbl.setForeground(new Color(75, 0, 130));
+		InsertNameLbl.setForeground(new Color(0, 206, 209));
 		InsertNameLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		InsertNameLbl.setBounds(63, 33, 249, 55);
 		contentPane.add(InsertNameLbl);
 		
 		JLabel InsertSurNameLbl = new JLabel("Insert Surname");
-		InsertSurNameLbl.setForeground(new Color(75, 0, 130));
+		InsertSurNameLbl.setForeground(new Color(0, 206, 209));
 		InsertSurNameLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		InsertSurNameLbl.setBounds(63, 113, 249, 55);
 		contentPane.add(InsertSurNameLbl);
 		
 		JLabel InsertusernameLbl = new JLabel("Insert Username");
-		InsertusernameLbl.setForeground(new Color(75, 0, 130));
+		InsertusernameLbl.setForeground(new Color(0, 206, 209));
 		InsertusernameLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		InsertusernameLbl.setBounds(63, 199, 249, 55);
 		contentPane.add(InsertusernameLbl);
 		
 		JLabel InsertPasswordLbl = new JLabel("Insert Password");
-		InsertPasswordLbl.setForeground(new Color(75, 0, 130));
+		InsertPasswordLbl.setForeground(new Color(0, 206, 209));
 		InsertPasswordLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		InsertPasswordLbl.setBounds(63, 288, 249, 55);
 		contentPane.add(InsertPasswordLbl);
 		
 		JLabel InsertEmailLbl = new JLabel("Insert Email");
-		InsertEmailLbl.setForeground(new Color(75, 0, 130));
+		InsertEmailLbl.setForeground(new Color(0, 206, 209));
 		InsertEmailLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		InsertEmailLbl.setBounds(471, 33, 249, 55);
 		contentPane.add(InsertEmailLbl);
 		
 		JLabel InsertAddressLbl = new JLabel("Insert Address");
-		InsertAddressLbl.setForeground(new Color(75, 0, 130));
+		InsertAddressLbl.setForeground(new Color(0, 206, 209));
 		InsertAddressLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		InsertAddressLbl.setBounds(471, 113, 249, 55);
 		contentPane.add(InsertAddressLbl);
 		
 		JLabel InsertCardNLbl = new JLabel("Insert CardNumber");
-		InsertCardNLbl.setForeground(new Color(75, 0, 130));
+		InsertCardNLbl.setForeground(new Color(0, 206, 209));
 		InsertCardNLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		InsertCardNLbl.setBounds(471, 199, 249, 55);
 		contentPane.add(InsertCardNLbl);
@@ -160,7 +162,9 @@ public class RegisterNewUserFrame extends JFrame {
 		contentPane.add(CancelButton);
 		
 		JLabel BackgroundLbl = new JLabel("");
-		BackgroundLbl.setBounds(0, 0, 1144, 721);
+		BackgroundLbl.setHorizontalAlignment(SwingConstants.RIGHT);
+		BackgroundLbl.setIcon(new ImageIcon(RegisterNewUserFrame.class.getResource("/images/Main Admin Frame.png")));
+		BackgroundLbl.setBounds(0, 0, 1154, 731);
 		contentPane.add(BackgroundLbl);
 		setLocationRelativeTo(null);
 	}

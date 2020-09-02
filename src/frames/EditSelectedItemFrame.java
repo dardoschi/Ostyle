@@ -167,7 +167,7 @@ public class EditSelectedItemFrame extends JFrame {
 		lblTitle = new JLabel("Edit Item");
 		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setBackground(Color.WHITE);
-		lblTitle.setBounds(121, 0, 336, 76);
+		lblTitle.setBounds(120, 0, 336, 76);
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		lblTitle.setToolTipText("Edit the selected Item");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -339,7 +339,8 @@ public class EditSelectedItemFrame extends JFrame {
 		contentPane.add(NewNameTF);
 		
 		lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(EditSelectedItemFrame.class.getResource("/images/Add-Edit Frame.png")));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel.setIcon(new ImageIcon(EditSelectedItemFrame.class.getResource("/images/Login Frame.png")));
 		lblNewLabel.setBounds(0, 0, 567, 586);
 		contentPane.add(lblNewLabel);
 

@@ -415,11 +415,12 @@ public class Controller {
 			OrderList.clear();
 			OrderDetailList.clear();
 			OrderItems.clear();
+			GetUserOrderList(0);
 		}else {
 			OrderList.clear();
 			OrderDetailList.clear();
 			OrderItems.clear();
-			GetUserOrderList(Client.getCodU());
+			GetUserOrderList(Client.getCodU());			
 		}
 	}
 	
