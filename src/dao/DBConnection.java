@@ -4,7 +4,7 @@ import main.Controller;
 
 public class DBConnection {
 	
-	public static final String url = "jdbc:postgresql://localhost/Ostyle";
+	public static final String url = "jdbc:postgresql://localhost/Ostyle3";
     public static final String username = "postgres";
     public static final String password = "password";
     

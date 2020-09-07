@@ -31,7 +31,7 @@ public class UserDao {
 	}
 	
 	
-	public boolean RegisterNewUser(String Name, String Surname, String Username, String Password, String Email, String Address, int CardN) {
+	public int RegisterNewUser(String Name, String Surname, String Username, String Password, String Email, String Address, int CardN) {
 		PreparedStatement st;
 		try {
 			st = connection.prepareStatement("insert into users (name, surname, username, password, email, address, cardn) (values(?,?,?,?,?,?,?));");
@@ -43,13 +43,15 @@ public class UserDao {
 			st.setString(6, Address);
 			st.setInt(7, CardN);
 			ResultSet rs = st.executeQuery();
-			return true;
+			return 0;
 		}catch(SQLException ex) {
 			String Error = ex.getMessage();
-			if(Error.contains("valore chiave duplicato")) {
-				return false;
-			}else {
-				return true;
+			if(Error.contains("username")) {
+				return 1;
+			}else if(Error.contains("email")) {
+				return 2;
+			}else{
+					return 0;
 			}
 		}
 	}

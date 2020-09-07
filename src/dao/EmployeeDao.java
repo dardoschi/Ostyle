@@ -49,7 +49,7 @@ public class EmployeeDao {
 		}
 		catch (SQLException e) {
 			String Error = e.getMessage();
-			if(Error.contains("valore chiave duplicato")) {
+			if(Error.contains("valore chiave duplicato") || Error.contains("duplicate")) {
 				return false;
 			}else {
 					return true;
