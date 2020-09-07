@@ -159,7 +159,7 @@ public class RegisterNewEmployeeFrame extends JFrame {
 	
 	//user already registered
 	public void UserAlreadyRegistered() {
-		JOptionPane.showMessageDialog(new JFrame(), "User already registered, change ID","", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(new JFrame(), "Employee already registered, change username","", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	//user has been registered

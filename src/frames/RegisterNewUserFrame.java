@@ -183,14 +183,22 @@ public class RegisterNewUserFrame extends JFrame {
 		}
 		
 		//user already registered
-		//public void UserAlreadyRegistered() {
-		//	JOptionPane.showMessageDialog(new JFrame(), "User already registered, change ID","", JOptionPane.ERROR_MESSAGE);
-			//NUsernameTextField.setText("");
-			//NPasswordTextField.setText("");
-			//NNameTextField.setText("");
-			//NSurnameTextField.setText("");
-			//CodIFTF.setValue(null);
-		//}
+		public void UserNameAlreadyRegistered() {
+			JOptionPane.showMessageDialog(new JFrame(), "Username already registered, choose a different one","", JOptionPane.ERROR_MESSAGE);
+//			NUsernameTextField.setText("");
+//			NPasswordTextField.setText("");
+//			NNameTextField.setText("");
+//			NSurnameTextField.setText("");
+//			CodIFTF.setValue(null);
+		}
+		public void EmailAlreadyUsed() {
+			JOptionPane.showMessageDialog(new JFrame(), "Email already used, choose a different one","", JOptionPane.ERROR_MESSAGE);
+//			NUsernameTextField.setText("");
+//			NPasswordTextField.setText("");
+//			NNameTextField.setText("");
+//			NSurnameTextField.setText("");
+//			CodIFTF.setValue(null);
+		}
 		
 		//user has been registered
 		public void UserHasBeenRegistered() {

@@ -237,18 +237,26 @@ public class Controller {
 	}
 	
 	public void RegisterUser(String Name, String Surname,String Username, String Password, String Email, String Address, int CardN) {
-		if( (UDao.RegisterNewUser(Name, Surname, Username, Password, Email, Address, CardN) == true) ){
+		if( (UDao.RegisterNewUser(Name, Surname, Username, Password, Email, Address, CardN) == 0) ){
 			RegisterUserFrame.UserHasBeenRegistered();
 			RegisterUserFrame.setVisible(false);
 			UserLogFrame.setVisible(true);
+		}else if (UDao.RegisterNewUser(Name, Surname, Username, Password, Email, Address, CardN) == 1) {
+			RegisterUserFrame.UserNameAlreadyRegistered();
+		}else if (UDao.RegisterNewUser(Name, Surname, Username, Password, Email, Address, CardN) == 2) {
+			RegisterUserFrame.EmailAlreadyUsed();
 		}
 	}
 	
 	//reloads the JTable in MainFrameAdmin (use after every change to the Database)
 	public void ReloadDBTable() {
 		reloadWarehouseArray(Warehouse);
-		MAdminFrame.TModel.fireTableDataChanged();
-		MFrame.TModel.fireTableDataChanged();
+		if(MAdminFrame != null) {
+			MAdminFrame.TModel.fireTableDataChanged();
+		}
+		if(MFrame != null) {
+			MFrame.TModel.fireTableDataChanged();
+		}
 	} 
 	//add new item
 	public void AddNewItem(int Id, String Size, double Price, String Type, int InStock, String Colour, String Name) {
