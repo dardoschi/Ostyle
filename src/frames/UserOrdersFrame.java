@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class UserOrdersFrame extends JFrame {
 
@@ -131,12 +132,14 @@ public class UserOrdersFrame extends JFrame {
 		OrderListPanel.setViewportView(OrderListTable);
 		
 		JLabel lblNewLabel = new JLabel("Orders List");
+		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(10, 0, 451, 32);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblOrderDetail = new JLabel("Order Detail");
+		lblOrderDetail.setForeground(Color.WHITE);
 		lblOrderDetail.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOrderDetail.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblOrderDetail.setBounds(466, 0, 702, 32);
@@ -166,6 +169,11 @@ public class UserOrdersFrame extends JFrame {
 		BackBtn.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		BackBtn.setBounds(908, 655, 260, 50);
 		contentPane.add(BackBtn);
+		
+		JLabel bckgrndLbl = new JLabel("");
+		bckgrndLbl.setIcon(new ImageIcon(UserOrdersFrame.class.getResource("/images/Main Admin Frame.png")));
+		bckgrndLbl.setBounds(0, 0, 1188, 753);
+		contentPane.add(bckgrndLbl);
 		
 		
 	}
