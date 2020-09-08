@@ -13,17 +13,20 @@ import frames.EmployeeLoginFrame;
 import frames.MainFrame;
 import frames.RegisterNewEmployeeFrame;
 import frames.RegisterNewUserFrame;
+import frames.StorePurchasesFrame;
 import frames.UserLoginFrame;
 import frames.UserOrdersFrame;
 import orders.Item;
 import orders.Order;
 import orders.OrderDetail;
+import orders.Soldinstore;
 import people.Employee;
 import people.User;
 import frames.MainFrameAdmin;
 import dao.ItemDao;
 import dao.OrderDetailDao;
 import dao.OrdersDao;
+import dao.SoldInstoreDao;
 import dao.UserDao;
 import dao.EmployeeDao;
 
@@ -34,6 +37,7 @@ public class Controller {
 	private UserDao UDao;
 	private OrdersDao ODao;
 	private OrderDetailDao ODDao;
+	private SoldInstoreDao SDao;
 	private EmployeeLoginFrame EmployeeLoginFrame;
 	private UserLoginFrame UserLogFrame;
 	private MainFrameAdmin MAdminFrame;
@@ -45,11 +49,13 @@ public class Controller {
 	private Item selecteditem;
 	private CartFrame CFrame;
 	private AddNewItemFrame AddFrame;
+	private StorePurchasesFrame SPFrame;
 	public ArrayList<Item> Warehouse;
 	public ArrayList<Item> Cart;
 	public ArrayList<Order> OrderList;
 	public ArrayList<OrderDetail> OrderDetailList;
 	public ArrayList<Item> OrderItems;
+	public ArrayList<Soldinstore> StorePurchases;
 	private UserOrdersFrame OrdersFrame;
 	private Employee Cashier;
 	private User Client;
@@ -66,6 +72,7 @@ public class Controller {
 		UDao = new UserDao();
 		ODao = new OrdersDao();
 		ODDao = new OrderDetailDao();
+		SDao = new SoldInstoreDao();
 		EmployeeLoginFrame = new EmployeeLoginFrame(this);
 		UserLogFrame = new UserLoginFrame(this);
 		LoadWarehouseArray(Warehouse);
@@ -453,5 +460,33 @@ public class Controller {
 		OrdersFrame.ODTModel.fireTableDataChanged();
 		UpdateUserOrderList(OrderList);
 		ReloadDBTable();
+	}
+	
+	public void getStorePurchases(){
+		if(StorePurchases != null) {
+			StorePurchases.clear();
+		}else {
+			StorePurchases = new ArrayList<Soldinstore>();
+		}
+		SDao.getSoldInStore(StorePurchases);
+		for(Soldinstore s : StorePurchases) {
+			s.setItemName(getItemName(s.getCodA()));
+			s.setEmplName(getEmplName(s.getCodI()));
+		}
+	}
+	
+	public String getItemName(int id) {
+		String name = IDao.getItemName(id);
+		return name;
+	}
+	
+	public String getEmplName(int CodI) {
+		String name = EDao.getEmplName(CodI);
+		return name;
+	}
+	
+	public void StorePurchasesFrameOpen() {
+		SPFrame = new StorePurchasesFrame(this);
+		SPFrame.setVisible(true);
 	}
 }	

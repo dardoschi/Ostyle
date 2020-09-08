@@ -168,8 +168,20 @@ public class MainFrameAdmin extends JFrame {
 				ctrl.OrdersFrameOpen(); 
 			}
 		});
+		
+		JButton StoreSalesBtn = new JButton("Store Sales");
+		StoreSalesBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ctrl.getStorePurchases();
+				ctrl.StorePurchasesFrameOpen();
+			}
+		});
+		StoreSalesBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		StoreSalesBtn.setBackground(new Color(121, 204, 224));
+		StoreSalesBtn.setBounds(1184, 496, 141, 48);
+		MainPanel.add(StoreSalesBtn);
 		ViewOrdersBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		ViewOrdersBtn.setBounds(1184, 453, 141, 69);
+		ViewOrdersBtn.setBounds(1184, 437, 141, 48);
 		MainPanel.add(ViewOrdersBtn);
 		
 		

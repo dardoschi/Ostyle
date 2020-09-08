@@ -12,7 +12,7 @@ public class Item {
 	private int InCart;
 	private String Name;
 	
-	//constructor
+	//constructors
 	public Item() {
 	}
 	
