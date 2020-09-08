@@ -160,4 +160,21 @@ public class ItemDao {
 			e.printStackTrace();
 		}
 	}
+	
+	public String getItemName(int id) {
+		PreparedStatement st;
+		String name = new String();
+		try {
+			st = connection.prepareStatement("select name from item where id = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				name = rs.getString("name");
+			}
+			return name;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

@@ -31,7 +31,7 @@ public class UserLoginFrame extends JFrame {
 	public UserLoginFrame(Controller control) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(UserLoginFrame.class.getResource("/images/logo_size_invert.jpg")));
 		setResizable(false);
-		setTitle("O'Style [USER]");
+		setTitle("O'Style");
 		ctrl = control;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1073, 702);

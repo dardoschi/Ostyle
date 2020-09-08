@@ -71,5 +71,21 @@ public class EmployeeDao {
 		}
 	}
 	 
+	public String getEmplName(int CodI) {
+		PreparedStatement st;
+		String name = new String();
+		try {
+			st = conn.prepareStatement("select username from employees where codi = ?");
+			st.setInt(1, CodI);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				name = rs.getString("username");
+			}
+			return name;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

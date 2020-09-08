@@ -28,7 +28,7 @@ public class EmployeeLoginFrame extends JFrame {
 
 	public EmployeeLoginFrame(Controller control) {
 		setResizable(false);
-		setTitle("O'Style");
+		setTitle("O'Style [ADMIN]");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(EmployeeLoginFrame.class.getResource("/images/logo_size_invert.jpg")));
 		ctrl = control;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
