@@ -21,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class StorePurchasesFrame extends JFrame {
 
@@ -31,6 +33,8 @@ public class StorePurchasesFrame extends JFrame {
 	private JButton backBtn;
 	
 	public StorePurchasesFrame(Controller c) {
+		setTitle("Store Purchases Recap");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(StorePurchasesFrame.class.getResource("/images/logo_size_invert.jpg")));
 		ctrl = c;
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 866, 617);
@@ -86,6 +90,11 @@ public class StorePurchasesFrame extends JFrame {
 		backBtn.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		backBtn.setBounds(357, 506, 137, 59);
 		contentPane.add(backBtn);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(StorePurchasesFrame.class.getResource("/images/Login Frame.png")));
+		lblNewLabel.setBounds(0, 0, 850, 578);
+		contentPane.add(lblNewLabel);
 		
 		((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer())
 	    .setHorizontalAlignment(JLabel.CENTER);
