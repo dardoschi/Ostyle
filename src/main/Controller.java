@@ -369,7 +369,13 @@ public class Controller {
 			Cart.remove(index);
 		}
 		CFrame.TModel.fireTableDataChanged();
-		MFrame.TModel.fireTableDataChanged();
+		//MFrame.TModel.fireTableDataChanged();
+		if(EFrame != null) {
+			EFrame.TModel.fireTableDataChanged();
+		}
+		if(MFrame != null) {
+			MFrame.TModel.fireTableDataChanged();
+		}
 		CFrame.updateTotal();
 	}
 	
@@ -379,6 +385,12 @@ public class Controller {
 		ReloadDBTable();
 		CFrame.TModel.fireTableDataChanged();
 		CFrame.updateTotal();
+		if(EFrame != null) {
+			EFrame.TModel.fireTableDataChanged();
+		}
+		if(MFrame != null) {
+			MFrame.TModel.fireTableDataChanged();
+		}
 	}
 	
 	//removes all of one item in cart
@@ -388,8 +400,14 @@ public class Controller {
 		Cart.get(index).zeroInCart();
 		Cart.remove(index);
 		CFrame.TModel.fireTableDataChanged();
-		MFrame.TModel.fireTableDataChanged();
+		//MFrame.TModel.fireTableDataChanged();
 		CFrame.updateTotal();
+		if(EFrame != null) {
+			EFrame.TModel.fireTableDataChanged();
+		}
+		if(MFrame != null) {
+			MFrame.TModel.fireTableDataChanged();
+		}
 	}
 	
 	//calculates the total price

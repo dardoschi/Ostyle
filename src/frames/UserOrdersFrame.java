@@ -40,7 +40,7 @@ public class UserOrdersFrame extends JFrame {
 	public OrderDetailTableModel ODTModel;
 	private JTable OrderDetailTable;
 	private JTable OrderListTable;
-	private int CodO;
+	private int CodO = -1;
 	
 	public UserOrdersFrame(Controller c) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(UserOrdersFrame.class.getResource("/images/logo_size_invert.jpg")));
@@ -146,18 +146,25 @@ public class UserOrdersFrame extends JFrame {
 		contentPane.add(lblOrderDetail);
 		
 		JButton ReturnBtn = new JButton("Return Order");
+		ReturnBtn.setBackground(Color.RED);
 		ReturnBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(JOptionPane.showConfirmDialog(null,"Do you want to proceed?", "Select an Option...",JOptionPane.YES_NO_OPTION)==0) {
-					ctrl.ReturnOrder(CodO);
+				if(CodO == -1) {
+					JOptionPane.showMessageDialog(new JFrame(), "Please select a line from table","ERROR", JOptionPane.ERROR_MESSAGE);
 				}else {
-					//nothing
+					if(JOptionPane.showConfirmDialog(null,"Do you want to proceed?", "Select an Option...",JOptionPane.YES_NO_OPTION)==0) {
+						ctrl.ReturnOrder(CodO);
+						CodO = -1;
+					}else {
+						//nothing
+					}
+					System.out.print((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0)+ "returned");
+					}
 				}
-				System.out.print((int) OrderListTable.getValueAt(OrderListTable.getSelectedRow(), 0)+ "returned");
-			}
+			
 		});
 		ReturnBtn.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		ReturnBtn.setBounds(111, 655, 197, 63);
+		ReturnBtn.setBounds(96, 661, 197, 63);
 		contentPane.add(ReturnBtn);
 		
 		JButton BackBtn = new JButton("Back to shopping");
@@ -167,7 +174,7 @@ public class UserOrdersFrame extends JFrame {
 			}
 		});
 		BackBtn.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		BackBtn.setBounds(908, 655, 260, 50);
+		BackBtn.setBounds(908, 655, 238, 75);
 		contentPane.add(BackBtn);
 		
 		JLabel bckgrndLbl = new JLabel("");

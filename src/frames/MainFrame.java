@@ -143,6 +143,7 @@ public class MainFrame extends JFrame {
 		MainPanel.setLayout(null);
 		
 		JButton OrdersBtn = new JButton("Orders");
+		OrdersBtn.setBackground(new Color(51, 204, 255));
 		OrdersBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ctrl.OrdersFrameOpen();
@@ -153,9 +154,10 @@ public class MainFrame extends JFrame {
 		MainPanel.add(OrdersBtn);
 		
 		JLabel UserLbl = new JLabel("Logged as - "+getUser());
+		UserLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		UserLbl.setForeground(Color.BLACK);
 		UserLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		UserLbl.setBounds(958, 610, 400, 52);
+		UserLbl.setBounds(958, 609, 400, 52);
 		MainPanel.add(UserLbl);
 		
 
@@ -203,11 +205,11 @@ public class MainFrame extends JFrame {
 
 	private String getUser() {
 		String user;
-		if(ctrl.getClient()==null) {
-			user = ctrl.getCashier().getUsername() +"-Employee";
-		}else {
-			user = ctrl.getClient().getUsername() + "-User"; 
-		}
+//		if(ctrl.getClient()==null) {
+//			user = ctrl.getCashier().getUsername() +"-Employee";
+//		}else {
+			user = ctrl.getClient().getUsername(); 
+	//	}
 		return user;
 	}
 }

@@ -143,6 +143,7 @@ public class EmployeeFrame extends JFrame {
 		MainPanel.setLayout(null);
 		
 		JLabel UserLbl = new JLabel("Logged as - "+getUser());
+		UserLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		UserLbl.setForeground(Color.BLACK);
 		UserLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		UserLbl.setBounds(958, 610, 400, 52);
@@ -193,11 +194,7 @@ public class EmployeeFrame extends JFrame {
 
 	private String getUser() {
 		String user;
-		if(ctrl.getClient()==null) {
-			user = ctrl.getCashier().getUsername() +"-Employee";
-		}else {
-			user = ctrl.getClient().getUsername() + "-User"; 
-		}
+		user = ctrl.getCashier().getUsername();
 		return user;
 	}
 
