@@ -86,7 +86,7 @@ public class CartFrame extends JFrame {
 		
 		JButton EmptyCartBtn = new JButton("Empty Cart");
 		EmptyCartBtn.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		EmptyCartBtn.setBackground(new Color(121, 204, 224));
+		EmptyCartBtn.setBackground(Color.RED);
 		EmptyCartBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(null,"Do you want to proceed?", "Select an Option...",JOptionPane.YES_NO_OPTION)==0){
@@ -96,7 +96,7 @@ public class CartFrame extends JFrame {
 					}
 			}
 		});
-		EmptyCartBtn.setBounds(10, 597, 200, 60);
+		EmptyCartBtn.setBounds(109, 600, 200, 60);
 		contentPane.add(EmptyCartBtn);
 		
 		JButton BuyBtn = new JButton("Buy");
@@ -119,7 +119,7 @@ public class CartFrame extends JFrame {
 		contentPane.add(BuyBtn);
 		
 		JButton RemoveOneBtn = new JButton("Remove One");
-		RemoveOneBtn.setBackground(new Color(121, 204, 224));
+		RemoveOneBtn.setBackground(Color.ORANGE);
 		RemoveOneBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = CartTable.getSelectedRow();
@@ -134,11 +134,11 @@ public class CartFrame extends JFrame {
 			}
 		});
 		RemoveOneBtn.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		RemoveOneBtn.setBounds(236, 597, 235, 60);
+		RemoveOneBtn.setBounds(230, 529, 235, 60);
 		contentPane.add(RemoveOneBtn);
 		
 		JButton RemoveAllBtn = new JButton("Remove All");
-		RemoveAllBtn.setBackground(new Color(121, 204, 224));
+		RemoveAllBtn.setBackground(Color.ORANGE);
 		RemoveAllBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = CartTable.getSelectedRow();
@@ -157,9 +157,10 @@ public class CartFrame extends JFrame {
 		contentPane.add(RemoveAllBtn);
 		
 		TotalLbl = new JLabel("Total : "+ ctrl.getTotal() +"€");
+		TotalLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		TotalLbl.setForeground(Color.WHITE);
 		TotalLbl.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		TotalLbl.setBounds(236, 542, 373, 43);
+		TotalLbl.setBounds(575, 479, 373, 43);
 		contentPane.add(TotalLbl);
 		
 		JLabel backgroundLbl = new JLabel("");
