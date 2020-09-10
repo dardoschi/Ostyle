@@ -21,6 +21,7 @@ import javax.swing.JFormattedTextField;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+import javax.swing.JPasswordField;
 
 public class RegisterNewUserFrame extends JFrame {
 	
@@ -29,7 +30,7 @@ public class RegisterNewUserFrame extends JFrame {
 	private JTextField NameTF;
 	private JTextField SurnameTF;
 	private JTextField UsernameTF;
-	private JTextField PasswordTF;
+	private JPasswordField PasswordTF;
 	private JTextField EmailTF;
 	private JTextField AddressTF;
 	private JFormattedTextField CardNTF;
@@ -65,7 +66,7 @@ public class RegisterNewUserFrame extends JFrame {
 		UsernameTF.setBounds(63, 245, 300, 40);
 		contentPane.add(UsernameTF);
 		
-		PasswordTF = new JTextField();
+		PasswordTF = new JPasswordField();
 		PasswordTF.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		PasswordTF.setColumns(10);
 		PasswordTF.setBounds(63, 329, 300, 40);

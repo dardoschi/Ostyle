@@ -180,6 +180,7 @@ public class Controller {
 					EFrame = new EmployeeFrame(this);
 					EFrame.setVisible(true);
 				}
+			//UpdateUserOrderList(OrderList);
 
 			}
 		System.out.println("Logged as "+user.getUsername());
@@ -195,7 +196,7 @@ public class Controller {
 			System.out.println("Logged as "+user.getUsername());
 			setClient(user);
 			MFrame = new MainFrame(this);
-			MFrame.setVisible(true);			//apri menu utente
+			MFrame.setVisible(true);
 			OrdersFrame = new UserOrdersFrame(this);
 		}
 	}
@@ -213,6 +214,7 @@ public class Controller {
 		setCashier(null);
 		OrdersFrame.dispose();
 		OrdersFrame = null;	
+		UpdateUserOrderList(OrderList);
 		
 	}
 		
@@ -222,10 +224,10 @@ public class Controller {
 			MFrame.setVisible(false);
 			UserLogFrame.setVisible(true);
 			setClient(null);
-			UpdateUserOrderList(OrderList);
 			MFrame.dispose();
 			OrdersFrame.dispose();
 			OrdersFrame = null;	
+			UpdateUserOrderList(OrderList);
 		}else {
 			EmployeeLogOut();
 		}
@@ -448,7 +450,9 @@ public class Controller {
 			OrderList.clear();
 			OrderDetailList.clear();
 			OrderItems.clear();
-			GetUserOrderList(0);
+			if(Cashier != null) {
+				GetUserOrderList(0);
+			}
 		}else {
 			OrderList.clear();
 			OrderDetailList.clear();

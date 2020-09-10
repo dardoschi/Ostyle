@@ -20,13 +20,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import javax.swing.JPasswordField;
 
 public class RegisterNewEmployeeFrame extends JFrame {
 
 	private JPanel contentPane;
 	private Controller ctrl;
 	private JTextField NUsernameTextField;
-	private JTextField NPasswordTextField;
+	private JPasswordField NPasswordTextField;
 	private JRadioButton AdminRdBtn;
 	private JTextField NSurnameTextField;
 	private JTextField NNameTextField;
@@ -92,7 +93,7 @@ public class RegisterNewEmployeeFrame extends JFrame {
 		NUsernameTextField.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		NUsernameTextField.setColumns(10);
 		
-		NPasswordTextField = new JTextField();
+		NPasswordTextField = new JPasswordField();
 		NPasswordTextField.setBounds(512, 274, 300, 40);
 		contentPane.add(NPasswordTextField);
 		NPasswordTextField.setFont(new Font("Tahoma", Font.PLAIN, 24));
